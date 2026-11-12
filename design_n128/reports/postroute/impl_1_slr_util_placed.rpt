@@ -1,0 +1,104 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2022.1 (lin64) Build 3526262 Mon Apr 18 15:47:01 MDT 2022
+| Date         : Thu Sep 24 17:03:47 2026
+| Host         : eeuser-Dell-Pro-Slim-QCS1250 running 64-bit Ubuntu 20.04.6 LTS
+| Command      : report_utilization -slr -file slr_util_placed.rpt -pb slr_util_placed.pb
+| Design       : level0_wrapper
+| Device       : xcu50-fsvh2104-2-e
+| Speed File   : -2
+| Design State : Fully Placed
+------------------------------------------------------------------------------------------
+
+Utilization Design Information
+
+Table of Contents
+-----------------
+1. SLR Connectivity
+2. SLR Connectivity Matrix
+3. SLR CLB Logic and Dedicated Block Utilization
+4. SLR IO Utilization
+
+1. SLR Connectivity
+-------------------
+
++----------------------------------+------+-------+-----------+-------+
+|                                  | Used | Fixed | Available | Util% |
++----------------------------------+------+-------+-----------+-------+
+| SLR1 <-> SLR0                    | 3473 |       |     23040 | 15.07 |
+|   SLR0 -> SLR1                   | 1767 |       |           |  7.67 |
+|     Using TX_REG only            |    0 |     0 |           |       |
+|     Using RX_REG only            |    0 |     0 |           |       |
+|     Using Both TX_REG and RX_REG |    0 |     0 |           |       |
+|   SLR1 -> SLR0                   | 1706 |       |           |  7.40 |
+|     Using TX_REG only            |    0 |     0 |           |       |
+|     Using RX_REG only            |    0 |     0 |           |       |
+|     Using Both TX_REG and RX_REG |    0 |     0 |           |       |
++----------------------------------+------+-------+-----------+-------+
+| Total SLLs Used                  | 3473 |       |           |       |
++----------------------------------+------+-------+-----------+-------+
+
+
+2. SLR Connectivity Matrix
+--------------------------
+
++-----------+------+------+
+| FROM \ TO | SLR1 | SLR0 |
++-----------+------+------+
+| SLR1      |    0 | 1706 |
+| SLR0      | 1767 |    0 |
++-----------+------+------+
+
+
+3. SLR CLB Logic and Dedicated Block Utilization
+------------------------------------------------
+
++----------------------------+--------+-------+--------+--------+
+|          Site Type         |  SLR0  |  SLR1 | SLR0 % | SLR1 % |
++----------------------------+--------+-------+--------+--------+
+| CLB                        |  41297 | 10348 |  75.14 |  19.16 |
+|   CLBL                     |  21152 |  5496 |  72.24 |  18.77 |
+|   CLBM                     |  20145 |  4852 |  78.45 |  19.63 |
+| CLB LUTs                   | 194681 | 56990 |  44.28 |  13.19 |
+|   LUT as Logic             | 173334 | 53092 |  39.42 |  12.29 |
+|     using O5 output only   |   2761 |   455 |   0.63 |   0.11 |
+|     using O6 output only   | 125498 | 41645 |  28.54 |   9.64 |
+|     using O5 and O6        |  45075 | 10992 |  10.25 |   2.54 |
+|   LUT as Memory            |  21347 |  3898 |  10.39 |   1.97 |
+|     LUT as Distributed RAM |   6904 |  2674 |   3.36 |   1.35 |
+|       using O5 output only |      0 |     0 |   0.00 |   0.00 |
+|       using O6 output only |   3546 |   370 |   1.73 |   0.19 |
+|       using O5 and O6      |   3358 |  2304 |   1.63 |   1.17 |
+|     LUT as Shift Register  |  14443 |  1224 |   7.03 |   0.62 |
+|       using O5 output only |      0 |     0 |   0.00 |   0.00 |
+|       using O6 output only |   9907 |  1224 |   4.82 |   0.62 |
+|       using O5 and O6      |   4536 |     0 |   2.21 |   0.00 |
+| CLB Registers              | 293485 | 52208 |  33.37 |   6.04 |
+| CARRY8                     |  11074 |   466 |  20.15 |   0.86 |
+| F7 Muxes                   |   2073 |  1062 |   0.94 |   0.49 |
+| F8 Muxes                   |    169 |   301 |   0.15 |   0.28 |
+| F9 Muxes                   |      0 |     0 |   0.00 |   0.00 |
+| Block RAM Tile             |    214 |    76 |  31.85 |  11.31 |
+|   RAMB36/FIFO              |    160 |    76 |  23.81 |  11.31 |
+|     RAMB36E2 only          |    160 |    76 |  23.81 |  11.31 |
+|   RAMB18                   |    108 |     0 |   8.04 |   0.00 |
+| URAM                       |     23 |     0 |   7.19 |   0.00 |
+| DSPs                       |   1600 |     0 |  55.56 |   0.00 |
+| Unique Control Sets        |   5508 |  2043 |   5.01 |   1.89 |
++----------------------------+--------+-------+--------+--------+
+* Note: Available Control Sets based on CLB Registers / 8
+
+
+4. SLR IO Utilization
+---------------------
+
++-----------+-----------+---------+------------+----------+------------+----------+-----+
+| SLR Index | Used IOBs | (%)IOBs | Used IPADs | (%)IPADs | Used OPADs | (%)OPADs | GTs |
++-----------+-----------+---------+------------+----------+------------+----------+-----+
+| SLR1      |         7 |    3.37 |          0 |     0.00 |          0 |     0.00 |   0 |
+| SLR0      |         3 |    1.44 |          0 |     0.00 |          0 |     0.00 |  16 |
++-----------+-----------+---------+------------+----------+------------+----------+-----+
+| Total     |        10 |         |          0 |          |          0 |          |  16 |
++-----------+-----------+---------+------------+----------+------------+----------+-----+
+
+
