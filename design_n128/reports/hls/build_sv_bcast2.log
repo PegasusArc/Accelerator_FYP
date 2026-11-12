@@ -1,0 +1,33 @@
+Option Map File Used: '/home/eeuser/xilinx/Vitis/2022.1/data/vitis/vpp/optMap.xml'
+
+****** v++ v2022.1 (64-bit)
+  **** SW Build 3524075 on 2022-04-13-17:42:45
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+INFO: [v++ 60-1306] Additional information associated with this v++ compile can be found at:
+	Reports: /home/eeuser/quant_accel/source_rr/_x_sv_bcast2/reports/sv_bcast2
+	Log files: /home/eeuser/quant_accel/source_rr/_x_sv_bcast2/logs/sv_bcast2
+Running Dispatch Server on port: 42807
+INFO: [v++ 60-1548] Creating build summary session with primary output /home/eeuser/quant_accel/source_rr/sv_bcast2.xo.compile_summary, at Thu Sep 24 16:30:11 2026
+INFO: [v++ 60-1316] Initiating connection to rulecheck server, at Thu Sep 24 16:30:11 2026
+INFO: [v++ 60-1315] Creating rulecheck session with output '/home/eeuser/quant_accel/source_rr/_x_sv_bcast2/reports/sv_bcast2/v++_compile_sv_bcast2_guidance.html', at Thu Sep 24 16:30:11 2026
+INFO: [v++ 60-895]   Target platform: /opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm
+INFO: [v++ 60-1578]   This platform contains Xilinx Shell Archive '/opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/hw/hw.xsa'
+INFO: [v++ 74-78] Compiler Version string: 2022.1
+INFO: [v++ 60-585] Compiling for hardware target
+INFO: [v++ 60-423]   Target device: xilinx_u50_gen3x16_xdma_5_202210_1
+INFO: [v++ 60-242] Creating kernel: 'sv_bcast2'
+
+===>The following messages were generated while  performing high-level synthesis for kernel: sv_bcast2 Log file: /home/eeuser/quant_accel/source_rr/_x_sv_bcast2/sv_bcast2/sv_bcast2/vitis_hls.log :
+INFO: [v++ 204-61] Pipelining function 'sv_bcast2'.
+INFO: [v++ 200-1470] Pipelining result : Target II = 1, Final II = 1, Depth = 2, function 'sv_bcast2'
+INFO: [v++ 200-789] **** Estimated Fmax: 0.00 MHz
+INFO: [v++ 60-594] Finished kernel compilation
+INFO: [v++ 60-244] Generating system estimate report...
+INFO: [v++ 60-1092] Generated system estimate report: /home/eeuser/quant_accel/source_rr/_x_sv_bcast2/reports/sv_bcast2/system_estimate_sv_bcast2.xtxt
+WARNING: [v++-17-1525]  
+INFO: [v++ 60-586] Created sv_bcast2.xo
+INFO: [v++ 60-2343] Use the vitis_analyzer tool to visualize and navigate the relevant reports. Run the following command. 
+    vitis_analyzer /home/eeuser/quant_accel/source_rr/sv_bcast2.xo.compile_summary 
+INFO: [v++ 60-791] Total elapsed time: 0h 0m 25s
+INFO: [v++ 60-1653] Closing dispatch client.
