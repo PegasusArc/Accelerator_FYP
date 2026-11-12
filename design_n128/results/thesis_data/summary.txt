@@ -1,0 +1,12 @@
+events 640000
+hw_decisions 609767
+ref_decisions 609767
+slot_mismatch 0
+ref_reps 3
+ref_ms 111.835 112.170 132.036
+ref_ms_min 111.835
+ref_ms_median 112.170
+hw_median 31.9910
+ref_median 31.8723
+hw_p95 43.2405
+ref_p95 42.6709
