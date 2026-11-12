@@ -1,0 +1,288 @@
+$ ./run.sh --limit 5000 --dump /tmp/p4_r0.bin
+# 2026-09-29 18:21:36 HKT on eeuser-Dell-Pro-Slim-QCS1250
+
+=== Context-interleaved run ===
+NASSET built in    : 128
+instruments        : SPY IWO SOXL IWM AAPL UVXY IYF SDY IWN MSFT XLK TNA IWB QQQ XLP IJH XLE KOLD TVIX XLV GDX SPXU XLC XLB OILX IGV XLU SOXX DRIP IBB XLI VXX MDY USO FDN LABD SCO MTUM MIDZ INTC TQQQ IYW SOXS EEM VIXY VFH XLY SQQQ IVOO GLL SVXY CURE OILD IVV FB FNGU GLD JDST FAZ DGLD DWT VGT XLF FAS FFEU AMD FXC BBH UDOW HDV OILU OIL MIDU DJP ERY IWF DBC IEMG DUST DGAZ DIA PBR QUAL VOO SMH UGL WTIU RWVG EFA OEF TLT WFC CAPE UNG BRZU VUG VHT RTH SDOW ICF FEZ JNUG OIH IEF VDE VALE VLUE NUGT GASL SCHD UCO VOX FXH ACB IYK XOP IHI LABU QLD IWD SPXL UWT BZQ UGAZ WTID EZU EWJ VYM 
+events per stock   : 5000
+
+  SPY    :   5000 events, price_ref 300.8000
+  IWO    :   5000 events, price_ref 179.9900
+  SOXL   :   5000 events, price_ref 185.5200
+  IWM    :   5000 events, price_ref 155.4800
+  AAPL   :   5000 events, price_ref 208.9200
+  UVXY   :   5000 events, price_ref 24.2600
+  IYF    :   5000 events, price_ref 118.9800
+  SDY    :   5000 events, price_ref 95.7700
+  IWN    :   5000 events, price_ref 111.6300
+  MSFT   :   5000 events, price_ref 140.5000
+  XLK    :   5000 events, price_ref 81.6100
+  TNA    :   5000 events, price_ref 57.7400
+  IWB    :   5000 events, price_ref 154.2900
+  QQQ    :   5000 events, price_ref 181.8300
+  XLP    :   5000 events, price_ref 60.6300
+  IJH    :   5000 events, price_ref 184.2400
+  XLE    :   5000 events, price_ref 62.1000
+  KOLD   :   5000 events, price_ref 33.9000
+  TVIX   :   5000 events, price_ref 13.3200
+  XLV    :   5000 events, price_ref 91.9100
+  GDX    :   5000 events, price_ref 27.7400
+  SPXU   :   5000 events, price_ref 24.5700
+  XLC    :   5000 events, price_ref 50.7600
+  XLB    :   5000 events, price_ref 60.1600
+  OILX   :   5000 events, price_ref 33.9000
+  IGV    :   5000 events, price_ref 211.4200
+  XLU    :   5000 events, price_ref 60.2100
+  SOXX   :   5000 events, price_ref 202.0300
+  DRIP   :   5000 events, price_ref 82.1300
+  IBB    :   5000 events, price_ref 98.2600
+  XLI    :   5000 events, price_ref 76.6700
+  VXX    :   5000 events, price_ref 21.9200
+  MDY    :   5000 events, price_ref 336.4700
+  USO    :   5000 events, price_ref 11.8900
+  FDN    :   5000 events, price_ref 138.8500
+  LABD   :   5000 events, price_ref 19.4300
+  SCO    :   5000 events, price_ref 17.0900
+  MTUM   :   5000 events, price_ref 123.4500
+  MIDZ   :   5000 events, price_ref 50.5900
+  INTC   :   5000 events, price_ref 52.2300
+  TQQQ   :   5000 events, price_ref 68.6100
+  IYW    :   5000 events, price_ref 194.3600
+  SOXS   :   5000 events, price_ref 37.2800
+  EEM    :   5000 events, price_ref 39.8500
+  VIXY   :   5000 events, price_ref 17.7600
+  VFH    :   5000 events, price_ref 65.5000
+  XLY    :   5000 events, price_ref 114.7100
+  SQQQ   :   5000 events, price_ref 29.9400
+  IVOO   :   5000 events, price_ref 132.3200
+  GLL    :   5000 events, price_ref 59.8300
+  SVXY   :   5000 events, price_ref 57.9200
+  CURE   :   5000 events, price_ref 52.8500
+  OILD   :   5000 events, price_ref 20.2100
+  IVV    :   5000 events, price_ref 301.9700
+  FB     :   5000 events, price_ref 195.1200
+  FNGU   :   5000 events, price_ref 39.2600
+  GLD    :   5000 events, price_ref 132.4700
+  JDST   :   5000 events, price_ref 16.8800
+  FAZ    :   5000 events, price_ref 31.0400
+  DGLD   :   5000 events, price_ref 34.3900
+  DWT    :   5000 events, price_ref 6.5200
+  VGT    :   5000 events, price_ref 207.4400
+  XLF    :   5000 events, price_ref 26.5700
+  FAS    :   5000 events, price_ref 74.4200
+  FFEU   :   5000 events, price_ref 89.2600
+  AMD    :   5000 events, price_ref 33.2300
+  FXC    :   5000 events, price_ref 75.0600
+  BBH    :   5000 events, price_ref 115.4200
+  UDOW   :   5000 events, price_ref 108.5500
+  HDV    :   5000 events, price_ref 89.6100
+  OILU   :   5000 events, price_ref 20.6300
+  OIL    :   5000 events, price_ref 58.0100
+  MIDU   :   5000 events, price_ref 41.0400
+  DJP    :   5000 events, price_ref 23.2300
+  ERY    :   5000 events, price_ref 42.3600
+  IWF    :   5000 events, price_ref 150.6800
+  DBC    :   5000 events, price_ref 14.5500
+  IEMG   :   5000 events, price_ref 47.7700
+  DUST   :   5000 events, price_ref 8.3500
+  DGAZ   :   5000 events, price_ref 186.8600
+  DIA    :   5000 events, price_ref 271.6400
+  PBR    :   5000 events, price_ref 14.1500
+  QUAL   :   5000 events, price_ref 94.5300
+  VOO    :   5000 events, price_ref 259.3400
+  SMH    :   5000 events, price_ref 120.5600
+  UGL    :   5000 events, price_ref 44.5500
+  WTIU   :   5000 events, price_ref 13.1100
+  RWVG   :   5000 events, price_ref 53.5100
+  EFA    :   5000 events, price_ref 61.1300
+  OEF    :   5000 events, price_ref 123.3100
+  TLT    :   5000 events, price_ref 132.1500
+  WFC    :   5000 events, price_ref 48.3000
+  CAPE   :   5000 events, price_ref 130.3500
+  UNG    :   5000 events, price_ref 18.5100
+  BRZU   :   5000 events, price_ref 33.8100
+  VUG    :   5000 events, price_ref 158.0700
+  VHT    :   5000 events, price_ref 160.3000
+  RTH    :   5000 events, price_ref 109.5700
+  SDOW   :   5000 events, price_ref 46.5600
+  ICF    :   5000 events, price_ref 101.0600
+  FEZ    :   5000 events, price_ref 37.5200
+  JNUG   :   5000 events, price_ref 82.7100
+  OIH    :   5000 events, price_ref 12.6200
+  IEF    :   5000 events, price_ref 109.5400
+  VDE    :   5000 events, price_ref 76.7200
+  VALE   :   5000 events, price_ref 12.2600
+  VLUE   :   5000 events, price_ref 81.9700
+  NUGT   :   5000 events, price_ref 33.9700
+  GASL   :   5000 events, price_ref 11.0500
+  SCHD   :   5000 events, price_ref 51.4900
+  UCO    :   5000 events, price_ref 18.7100
+  VOX    :   5000 events, price_ref 92.1300
+  FXH    :   5000 events, price_ref 71.9600
+  ACB    :   5000 events, price_ref 5.9000
+  IYK    :   5000 events, price_ref 114.4000
+  XOP    :   5000 events, price_ref 23.9400
+  IHI    :   5000 events, price_ref 229.9300
+  LABU   :   5000 events, price_ref 44.3500
+  QLD    :   5000 events, price_ref 96.0500
+  IWD    :   5000 events, price_ref 119.5100
+  SPXL   :   5000 events, price_ref 54.6900
+  UWT    :   5000 events, price_ref 13.8600
+  BZQ    :   5000 events, price_ref 22.2300
+  UGAZ   :   5000 events, price_ref 12.6800
+  WTID   :   5000 events, price_ref 7.3400
+  EZU    :   5000 events, price_ref 38.7100
+  EWJ    :   5000 events, price_ref 51.3200
+  VYM    :   5000 events, price_ref 83.4600
+
+  interleaved batch : 640000 events, 609767 expected decisions
+
+  running interleaved...
+  buffers           : in 19.53 MB, out 37.22 MB
+  card time         : 12.399 ms for 609767 decisions -> 49.180 M/s
+
+  --- interleaved vs double-precision reference ---
+    hardware  : 609767 decisions
+    reference : 609767 decisions
+    per-tick agreement (informational, not a gate):
+      final 77.9%  momentum 76.8%  risk 82.4%  regime 79.2%
+    GATE 1 saturation   : max |S1| 68.353 vs ceiling 1843.2  -> PASS
+      (rho max 2047.9998, railed on 6502 of 609767 ticks - rho is not gated)
+    GATE 2 distribution : median 31.9910 vs 31.8723 (0.4% apart)
+                          p95    43.2405 vs 42.6709 (1.3% apart)  -> PASS
+    worst instrument    : 37, median 150.7% apart
+    VERDICT             : PASS on both gates
+
+  decisions per instrument:
+    SPY      4999   BUY  1375  SELL  1645  HOLD  1979
+    IWO      4987   BUY   254  SELL   700  HOLD  4033
+    SOXL     4781   BUY   645  SELL   845  HOLD  3291
+    IWM      4955   BUY  1632  SELL  1344  HOLD  1979
+    AAPL     4682   BUY   897  SELL  2194  HOLD  1591
+    UVXY     4191   BUY   378  SELL  1860  HOLD  1953
+    IYF      4999   BUY   207  SELL   533  HOLD  4259
+    SDY      4999   BUY    59  SELL   210  HOLD  4730
+    IWN      4999   BUY   130  SELL   335  HOLD  4534
+    MSFT     4889   BUY    89  SELL   356  HOLD  4444
+    XLK      4995   BUY  1248  SELL  1531  HOLD  2216
+    TNA      4996   BUY   118  SELL   831  HOLD  4047
+    IWB      4995   BUY   343  SELL   487  HOLD  4165
+    QQQ      4999   BUY    56  SELL   315  HOLD  4628
+    XLP      4995   BUY  1798  SELL  1804  HOLD  1393
+    IJH      4585   BUY    78  SELL  2186  HOLD  2321
+    XLE      4979   BUY   600  SELL  2387  HOLD  1992
+    KOLD     4438   BUY  1169  SELL  1129  HOLD  2140
+    TVIX     4484   BUY  1058  SELL  1390  HOLD  2036
+    XLV      4997   BUY  1842  SELL  1329  HOLD  1826
+    GDX      4673   BUY  1307  SELL  1956  HOLD  1410
+    SPXU     4999   BUY   359  SELL   558  HOLD  4082
+    XLC      4988   BUY  1890  SELL  1410  HOLD  1688
+    XLB      4989   BUY   449  SELL   912  HOLD  3628
+    OILX     4797   BUY    26  SELL   438  HOLD  4333
+    IGV      4999   BUY    14  SELL   131  HOLD  4854
+    XLU      4985   BUY  1386  SELL  1946  HOLD  1653
+    SOXX     4998   BUY     8  SELL   199  HOLD  4791
+    DRIP     4790   BUY   195  SELL   711  HOLD  3884
+    IBB      4999   BUY     7  SELL   664  HOLD  4328
+    XLI      4995   BUY  1152  SELL   705  HOLD  3138
+    VXX      4480   BUY  1352  SELL   746  HOLD  2382
+    MDY      4262   BUY   508  SELL  1185  HOLD  2569
+    USO      4801   BUY   345  SELL   703  HOLD  3753
+    FDN      4999   BUY     9  SELL   127  HOLD  4863
+    LABD     4709   BUY  1310  SELL  1342  HOLD  2057
+    SCO      4687   BUY  1585  SELL   383  HOLD  2719
+    MTUM     4997   BUY   199  SELL   398  HOLD  4400
+    MIDZ     4925   BUY   315  SELL   798  HOLD  3812
+    INTC     4896   BUY   576  SELL  1047  HOLD  3273
+    TQQQ     4985   BUY   953  SELL   697  HOLD  3335
+    IYW      4994   BUY    54  SELL   360  HOLD  4580
+    SOXS     4959   BUY    78  SELL   385  HOLD  4496
+    EEM      4843   BUY  2244  SELL   980  HOLD  1619
+    VIXY     4619   BUY  1980  SELL  1056  HOLD  1583
+    VFH      4983   BUY   414  SELL   511  HOLD  4058
+    XLY      4999   BUY    40  SELL   207  HOLD  4752
+    SQQQ     4973   BUY   741  SELL   788  HOLD  3444
+    IVOO     4991   BUY  1983  SELL  1236  HOLD  1772
+    GLL      2872   BUY  1138  SELL   780  HOLD   954
+    SVXY     4026   BUY  1126  SELL   697  HOLD  2203
+    CURE     4749   BUY    34  SELL  1323  HOLD  3392
+    OILD     2596   BUY  1002  SELL   847  HOLD   747
+    IVV      4997   BUY  1297  SELL  1057  HOLD  2643
+    FB       4777   BUY   871  SELL  1157  HOLD  2749
+    FNGU     4778   BUY  1026  SELL  1587  HOLD  2165
+    GLD      4913   BUY   611  SELL  1627  HOLD  2675
+    JDST     4992   BUY  1299  SELL  1128  HOLD  2565
+    FAZ      4967   BUY    95  SELL   323  HOLD  4549
+    DGLD     2798   BUY   980  SELL   972  HOLD   846
+    DWT      3542   BUY   815  SELL   937  HOLD  1790
+    VGT      4999   BUY    13  SELL    86  HOLD  4900
+    XLF      4988   BUY  1568  SELL  1416  HOLD  2004
+    FAS      4882   BUY    25  SELL   345  HOLD  4512
+    FFEU     4996   BUY  1622  SELL   800  HOLD  2574
+    AMD      4831   BUY   595  SELL  1681  HOLD  2555
+    FXC      4984   BUY    61  SELL  1337  HOLD  3586
+    BBH      4992   BUY    11  SELL   172  HOLD  4809
+    UDOW     4972   BUY   375  SELL  1485  HOLD  3112
+    HDV      4999   BUY     8  SELL   954  HOLD  4037
+    OILU     2880   BUY   819  SELL   712  HOLD  1349
+    OIL      3930   BUY   914  SELL   893  HOLD  2123
+    MIDU     4538   BUY   854  SELL  1136  HOLD  2548
+    DJP      4982   BUY   793  SELL   732  HOLD  3457
+    ERY      4944   BUY   110  SELL   383  HOLD  4451
+    IWF      4999   BUY    26  SELL   113  HOLD  4860
+    DBC      4998   BUY   122  SELL   653  HOLD  4223
+    IEMG     4999   BUY  1422  SELL   901  HOLD  2676
+    DUST     4972   BUY   712  SELL  2836  HOLD  1424
+    DGAZ     2799   BUY   881  SELL  1186  HOLD   732
+    DIA      4579   BUY   645  SELL   583  HOLD  3351
+    PBR      4640   BUY  1210  SELL  1229  HOLD  2201
+    QUAL     4997   BUY   871  SELL  1181  HOLD  2945
+    VOO      4999   BUY    28  SELL   238  HOLD  4733
+    SMH      4959   BUY  1038  SELL   416  HOLD  3505
+    UGL      4350   BUY  2260  SELL   592  HOLD  1498
+    WTIU     4535   BUY   432  SELL  1426  HOLD  2677
+    RWVG     4461   BUY   978  SELL   735  HOLD  2748
+    EFA      4913   BUY    80  SELL   510  HOLD  4323
+    OEF      4999   BUY    20  SELL   156  HOLD  4823
+    TLT      4597   BUY   569  SELL   913  HOLD  3115
+    WFC      4943   BUY  1337  SELL  1008  HOLD  2598
+    CAPE     4999   BUY  1494  SELL  1775  HOLD  1730
+    UNG      4715   BUY   408  SELL  1364  HOLD  2943
+    BRZU     4999   BUY   118  SELL   125  HOLD  4756
+    VUG      4999   BUY    12  SELL   108  HOLD  4879
+    VHT      4999   BUY    14  SELL   113  HOLD  4872
+    RTH      4997   BUY    97  SELL   313  HOLD  4587
+    SDOW     4987   BUY   303  SELL  2036  HOLD  2648
+    ICF      4994   BUY   149  SELL   371  HOLD  4474
+    FEZ      4961   BUY   966  SELL   281  HOLD  3714
+    JNUG     4973   BUY   207  SELL   439  HOLD  4327
+    OIH      4981   BUY  1881  SELL  1376  HOLD  1724
+    IEF      4984   BUY  1751  SELL  1743  HOLD  1490
+    VDE      4999   BUY    68  SELL   185  HOLD  4746
+    VALE     4724   BUY   239  SELL  2796  HOLD  1689
+    VLUE     4996   BUY    53  SELL  1465  HOLD  3478
+    NUGT     4929   BUY   688  SELL   527  HOLD  3714
+    GASL     4977   BUY   584  SELL   622  HOLD  3771
+    SCHD     4999   BUY    63  SELL  1044  HOLD  3892
+    UCO      4374   BUY  1875  SELL   598  HOLD  1901
+    VOX      4883   BUY   358  SELL   667  HOLD  3858
+    FXH      4999   BUY   237  SELL   263  HOLD  4499
+    ACB      4634   BUY  1526  SELL  1526  HOLD  1582
+    IYK      4999   BUY     9  SELL   163  HOLD  4827
+    XOP      4997   BUY   553  SELL   276  HOLD  4168
+    IHI      4999   BUY    43  SELL   274  HOLD  4682
+    LABU     4992   BUY   424  SELL   713  HOLD  3855
+    QLD      4986   BUY    39  SELL   245  HOLD  4702
+    IWD      4999   BUY    67  SELL   109  HOLD  4823
+    SPXL     4997   BUY   110  SELL   321  HOLD  4566
+    UWT      3950   BUY  1619  SELL  1116  HOLD  1215
+    BZQ      4939   BUY  1538  SELL  1424  HOLD  1977
+    UGAZ     4260   BUY  1097  SELL   902  HOLD  2261
+    WTID     4709   BUY   632  SELL  1555  HOLD  2522
+    EZU      4919   BUY   882  SELL   440  HOLD  3597
+    EWJ      4999   BUY   875  SELL   566  HOLD  3558
+    VYM      4999   BUY    60  SELL   172  HOLD  4767
+  dumped            : 609767 decisions for 128 instruments -> /tmp/p4_r0.bin
+                      (keyed by original instrument, slot zeroed)
+
+*** INTERLEAVED RUN COMPLETE ***

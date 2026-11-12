@@ -1,0 +1,7 @@
+Rotation invariance: run2 in the original order, run3 with every
+instrument moved 64 slots. Dumps are keyed by original instrument.
+
+a47df041b4f62fd20c5f33f31e860c7302b4e38a9a852eab02e6766175fb6aa3  39025600 bytes  p4_r0.bin
+a47df041b4f62fd20c5f33f31e860c7302b4e38a9a852eab02e6766175fb6aa3  39025600 bytes  p4_r64.bin
+
+cmp: identical -> ROTATION INVARIANT

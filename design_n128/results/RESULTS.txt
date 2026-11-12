@@ -1,0 +1,45 @@
+P4 proof runs made for the handover
+
+Date       : 2026-09-29 18:22 HKT
+Machine    : eeuser-Dell-Pro-Slim-QCS1250, Intel(R) Core(TM) i7-14700
+Card       : 0000:01:00.1, temperature before the runs 95 C
+XRT        : 2.13.466
+Bitstream  : caabed694ba4f51d5ae42bd1abb7fbdf5d7b8678f2f4eb323b4d6ab72f5259e5  bin/quant_accel_rr.xclbin
+Host       : 2c16e7affc2a4a02bc2c25f84c19c7c14d13e784e2b73e67bca961f8e42cd3a1  bin/host_rr
+Data       : 20190730.BX_ITCH_50, 837472908 bytes
+Clocks     : DATA_CLK 300 MHz (ap_clk of the nine kernels); other clocks in the xclbin: hbm_aclk 450 MHz, KERNEL_CLK 500 MHz
+Timing     : All user specified timing constraints are met.
+
+run1_headline
+  $ ./run.sh --limit 5000 --table 30
+  card time         : 12.399 ms for 609767 decisions -> 49.179 M/s
+    GATE 1 saturation   : max |S1| 68.353 vs ceiling 1843.2  -> PASS
+    GATE 2 distribution : median 31.9910 vs 31.8723 (0.4% apart)
+                          p95    43.2405 vs 42.6709 (1.3% apart)  -> PASS
+    VERDICT             : PASS on both gates
+
+run2_rotation_r0
+  $ ./run.sh --limit 5000 --dump /tmp/p4_r0.bin
+  card time         : 12.399 ms for 609767 decisions -> 49.180 M/s
+    GATE 1 saturation   : max |S1| 68.353 vs ceiling 1843.2  -> PASS
+    GATE 2 distribution : median 31.9910 vs 31.8723 (0.4% apart)
+                          p95    43.2405 vs 42.6709 (1.3% apart)  -> PASS
+    VERDICT             : PASS on both gates
+  dumped            : 609767 decisions for 128 instruments -> /tmp/p4_r0.bin
+
+run3_rotation_r64
+  $ ./run.sh --limit 5000 --shift 64 --dump /tmp/p4_r64.bin
+  card time         : 12.399 ms for 609767 decisions -> 49.178 M/s
+    GATE 1 saturation   : max |S1| 68.353 vs ceiling 1843.2  -> PASS
+    GATE 2 distribution : median 31.9910 vs 31.8723 (0.4% apart)
+                          p95    43.2405 vs 42.6709 (1.3% apart)  -> PASS
+    VERDICT             : PASS on both gates
+  dumped            : 609767 decisions for 128 instruments -> /tmp/p4_r64.bin
+
+Rotation invariance: run2 in the original order, run3 with every
+instrument moved 64 slots. Dumps are keyed by original instrument.
+
+a47df041b4f62fd20c5f33f31e860c7302b4e38a9a852eab02e6766175fb6aa3  39025600 bytes  p4_r0.bin
+a47df041b4f62fd20c5f33f31e860c7302b4e38a9a852eab02e6766175fb6aa3  39025600 bytes  p4_r64.bin
+
+cmp: identical -> ROTATION INVARIANT
