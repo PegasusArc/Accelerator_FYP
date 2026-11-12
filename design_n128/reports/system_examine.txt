@@ -1,0 +1,24 @@
+System Configuration
+  OS Name              : Linux
+  Release              : 5.15.0-139-generic
+  Version              : #149~20.04.1-Ubuntu SMP Wed Apr 16 08:29:56 UTC 2025
+  Machine              : x86_64
+  CPU Cores            : 28
+  Memory               : 15672 MB
+  Distribution         : Ubuntu 20.04.6 LTS
+  GLIBC                : 2.31
+  Model                : Dell Pro Slim QCS1250
+
+XRT
+  Version              : 2.13.466
+  Branch               : 2022.1
+  Hash                 : f5505e402c2ca1ffe45eb6d3a9399b23a0dc8776
+  Hash Date            : 2022-04-14 17:43:11
+  XOCL                 : 2.13.466, f5505e402c2ca1ffe45eb6d3a9399b23a0dc8776
+  XCLMGMT              : 2.13.466, f5505e402c2ca1ffe45eb6d3a9399b23a0dc8776
+
+Devices present
+BDF             :  Shell                           Platform UUID                         Device ID       Device Ready*  
+[0000:01:00.1]  :  xilinx_u50_gen3x16_xdma_base_5  44654095-25B4-C06A-EC6D-0B479D3FEBE8  user(inst=128)  Yes            
+
+* Devices that are not ready will have reduced functionality when using XRT tools

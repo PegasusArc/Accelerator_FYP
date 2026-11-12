@@ -1,0 +1,335 @@
+Option Map File Used: '/home/eeuser/xilinx/Vitis/2022.1/data/vitis/vpp/optMap.xml'
+
+****** v++ v2022.1 (64-bit)
+  **** SW Build 3524075 on 2022-04-13-17:42:45
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+INFO: [v++ 60-1306] Additional information associated with this v++ link can be found at:
+	Reports: /home/eeuser/quant_accel/source_rr/_x/reports/link
+	Log files: /home/eeuser/quant_accel/source_rr/_x/logs/link
+Running Dispatch Server on port: 33843
+INFO: [v++ 60-1548] Creating build summary session with primary output /home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin.link_summary, at Thu Sep 24 16:32:36 2026
+INFO: [v++ 60-1316] Initiating connection to rulecheck server, at Thu Sep 24 16:32:36 2026
+INFO: [v++ 60-1315] Creating rulecheck session with output '/home/eeuser/quant_accel/source_rr/_x/reports/link/v++_link_quant_accel_rr_guidance.html', at Thu Sep 24 16:32:37 2026
+INFO: [v++ 60-895]   Target platform: /opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm
+INFO: [v++ 60-1578]   This platform contains Xilinx Shell Archive '/opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/hw/hw.xsa'
+INFO: [v++ 74-78] Compiler Version string: 2022.1
+INFO: [v++ 60-629] Linking for hardware target
+INFO: [v++ 60-423]   Target device: xilinx_u50_gen3x16_xdma_5_202210_1
+INFO: [v++ 60-1332] Run 'run_link' status: Not started
+INFO: [v++ 60-1443] [16:32:39] Run run_link: Step system_link: Started
+INFO: [v++ 60-1453] Command Line: system_link --xo /home/eeuser/quant_accel/source_rr/upd_inject.xo --xo /home/eeuser/quant_accel/source_rr/lob_filter.xo --xo /home/eeuser/quant_accel/source_rr/inctsvd_top.xo --xo /home/eeuser/quant_accel/source_rr/sv_bcast3.xo --xo /home/eeuser/quant_accel/source_rr/sv_bcast2.xo --xo /home/eeuser/quant_accel/source_rr/momentum_signal.xo --xo /home/eeuser/quant_accel/source_rr/risk_matrix.xo --xo /home/eeuser/quant_accel/source_rr/regime_classifier.xo --xo /home/eeuser/quant_accel/source_rr/decision_sink.xo --config /home/eeuser/quant_accel/source_rr/_x/link/int/syslinkConfig.ini --xpfm /opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm --target hw --output_dir /home/eeuser/quant_accel/source_rr/_x/link/int --temp_dir /home/eeuser/quant_accel/source_rr/_x/link/sys_link
+INFO: [v++ 60-1454] Run Directory: /home/eeuser/quant_accel/source_rr/_x/link/run_link
+INFO: [SYSTEM_LINK 60-1316] Initiating connection to rulecheck server, at Thu Sep 24 16:32:40 2026
+INFO: [SYSTEM_LINK 82-70] Extracting xo v3 file /home/eeuser/quant_accel/source_rr/upd_inject.xo
+INFO: [SYSTEM_LINK 82-70] Extracting xo v3 file /home/eeuser/quant_accel/source_rr/lob_filter.xo
+INFO: [SYSTEM_LINK 82-70] Extracting xo v3 file /home/eeuser/quant_accel/source_rr/inctsvd_top.xo
+INFO: [SYSTEM_LINK 82-70] Extracting xo v3 file /home/eeuser/quant_accel/source_rr/sv_bcast3.xo
+INFO: [SYSTEM_LINK 82-70] Extracting xo v3 file /home/eeuser/quant_accel/source_rr/sv_bcast2.xo
+INFO: [SYSTEM_LINK 82-70] Extracting xo v3 file /home/eeuser/quant_accel/source_rr/momentum_signal.xo
+INFO: [SYSTEM_LINK 82-70] Extracting xo v3 file /home/eeuser/quant_accel/source_rr/risk_matrix.xo
+INFO: [SYSTEM_LINK 82-70] Extracting xo v3 file /home/eeuser/quant_accel/source_rr/regime_classifier.xo
+INFO: [SYSTEM_LINK 82-70] Extracting xo v3 file /home/eeuser/quant_accel/source_rr/decision_sink.xo
+INFO: [SYSTEM_LINK 82-53] Creating IP database /home/eeuser/quant_accel/source_rr/_x/link/sys_link/_sysl/.cdb/xd_ip_db.xml
+INFO: [SYSTEM_LINK 82-38] [16:32:40] build_xd_ip_db started: /home/eeuser/xilinx/Vitis/2022.1/bin/build_xd_ip_db -ip_search 0  -sds-pf /home/eeuser/quant_accel/source_rr/_x/link/sys_link/hw.hpfm -clkid 0 -ip /home/eeuser/quant_accel/source_rr/_x/link/sys_link/iprepo/xilinx_com_hls_upd_inject_1_0,upd_inject -ip /home/eeuser/quant_accel/source_rr/_x/link/sys_link/iprepo/xilinx_com_hls_inctsvd_top_1_0,inctsvd_top -ip /home/eeuser/quant_accel/source_rr/_x/link/sys_link/iprepo/xilinx_com_hls_lob_filter_1_0,lob_filter -ip /home/eeuser/quant_accel/source_rr/_x/link/sys_link/iprepo/xilinx_com_hls_sv_bcast2_1_0,sv_bcast2 -ip /home/eeuser/quant_accel/source_rr/_x/link/sys_link/iprepo/xilinx_com_hls_regime_classifier_1_0,regime_classifier -ip /home/eeuser/quant_accel/source_rr/_x/link/sys_link/iprepo/xilinx_com_hls_risk_matrix_1_0,risk_matrix -ip /home/eeuser/quant_accel/source_rr/_x/link/sys_link/iprepo/xilinx_com_hls_sv_bcast3_1_0,sv_bcast3 -ip /home/eeuser/quant_accel/source_rr/_x/link/sys_link/iprepo/xilinx_com_hls_momentum_signal_1_0,momentum_signal -ip /home/eeuser/quant_accel/source_rr/_x/link/sys_link/iprepo/xilinx_com_hls_decision_sink_1_0,decision_sink -o /home/eeuser/quant_accel/source_rr/_x/link/sys_link/_sysl/.cdb/xd_ip_db.xml
+INFO: [SYSTEM_LINK 82-37] [16:32:44] build_xd_ip_db finished successfully
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:03 . Memory (MB): peak = 2270.617 ; gain = 0.000 ; free physical = 8429 ; free virtual = 37447
+INFO: [SYSTEM_LINK 82-51] Create system connectivity graph
+INFO: [SYSTEM_LINK 82-102] Applying explicit connections to the system connectivity graph: /home/eeuser/quant_accel/source_rr/_x/link/sys_link/cfgraph/cfgen_cfgraph.xml
+INFO: [SYSTEM_LINK 82-38] [16:32:44] cfgen started: /home/eeuser/xilinx/Vitis/2022.1/bin/cfgen  -nk upd_inject:1:upd_inject -nk lob_filter:1:lob_filter -nk inctsvd_top:1:inctsvd_top -nk sv_bcast3:1:bcast_st -nk sv_bcast2:1:bcast_pm -nk momentum_signal:1:momentum_signal -nk risk_matrix:1:risk_matrix -nk regime_classifier:1:regime_classifier -nk decision_sink:1:decision_sink -sc upd_inject.upd_out:lob_filter.upd_in:2048 -sc lob_filter.Bt_out:inctsvd_top.Bt_in:256 -sc inctsvd_top.St_out:bcast_st.in:2048 -sc bcast_st.out0:momentum_signal.St_in:2048 -sc bcast_st.out1:risk_matrix.St_in:2048 -sc bcast_st.out2:regime_classifier.St_in:2048 -sc inctsvd_top.proj_out:bcast_pm.in:2048 -sc bcast_pm.out0:momentum_signal.proj_in:2048 -sc bcast_pm.out1:risk_matrix.proj_in:2048 -sc momentum_signal.res_out:decision_sink.mom_in:2048 -sc risk_matrix.res_out:decision_sink.rsk_in:2048 -sc regime_classifier.res_out:decision_sink.rgm_in:2048 -slr upd_inject:SLR0 -slr lob_filter:SLR0 -slr inctsvd_top:SLR0 -slr bcast_st:SLR0 -slr bcast_pm:SLR0 -slr momentum_signal:SLR0 -slr risk_matrix:SLR0 -slr regime_classifier:SLR0 -slr decision_sink:SLR0 -sp upd_inject.updates:HBM[0] -sp decision_sink.decisions:HBM[1] -clock.freqHz 166666666:upd_inject.ap_clk -clock.freqHz 166666666:lob_filter.ap_clk -clock.freqHz 166666666:inctsvd_top.ap_clk -clock.freqHz 166666666:bcast_st.ap_clk -clock.freqHz 166666666:bcast_pm.ap_clk -clock.freqHz 166666666:momentum_signal.ap_clk -clock.freqHz 166666666:risk_matrix.ap_clk -clock.freqHz 166666666:regime_classifier.ap_clk -clock.freqHz 166666666:decision_sink.ap_clk -dmclkid 0 -r /home/eeuser/quant_accel/source_rr/_x/link/sys_link/_sysl/.cdb/xd_ip_db.xml -o /home/eeuser/quant_accel/source_rr/_x/link/sys_link/cfgraph/cfgen_cfgraph.xml
+INFO: [CFGEN 83-0] Kernel Specs: 
+INFO: [CFGEN 83-0]   kernel: upd_inject, num: 1  {upd_inject}
+INFO: [CFGEN 83-0]   kernel: lob_filter, num: 1  {lob_filter}
+INFO: [CFGEN 83-0]   kernel: inctsvd_top, num: 1  {inctsvd_top}
+INFO: [CFGEN 83-0]   kernel: sv_bcast3, num: 1  {bcast_st}
+INFO: [CFGEN 83-0]   kernel: sv_bcast2, num: 1  {bcast_pm}
+INFO: [CFGEN 83-0]   kernel: momentum_signal, num: 1  {momentum_signal}
+INFO: [CFGEN 83-0]   kernel: risk_matrix, num: 1  {risk_matrix}
+INFO: [CFGEN 83-0]   kernel: regime_classifier, num: 1  {regime_classifier}
+INFO: [CFGEN 83-0]   kernel: decision_sink, num: 1  {decision_sink}
+INFO: [CFGEN 83-0] Port Specs: 
+INFO: [CFGEN 83-0]   kernel: upd_inject, k_port: updates, sptag: HBM[0]
+INFO: [CFGEN 83-0]   kernel: decision_sink, k_port: decisions, sptag: HBM[1]
+INFO: [CFGEN 83-0] Stream Specs: 
+INFO: [CFGEN 83-0]   upd_inject.upd_out => lob_filter.upd_in
+INFO: [CFGEN 83-0]   lob_filter.Bt_out => inctsvd_top.Bt_in
+INFO: [CFGEN 83-0]   inctsvd_top.St_out => bcast_st.in
+INFO: [CFGEN 83-0]   bcast_st.out0 => momentum_signal.St_in
+INFO: [CFGEN 83-0]   bcast_st.out1 => risk_matrix.St_in
+INFO: [CFGEN 83-0]   bcast_st.out2 => regime_classifier.St_in
+INFO: [CFGEN 83-0]   inctsvd_top.proj_out => bcast_pm.in
+INFO: [CFGEN 83-0]   bcast_pm.out0 => momentum_signal.proj_in
+INFO: [CFGEN 83-0]   bcast_pm.out1 => risk_matrix.proj_in
+INFO: [CFGEN 83-0]   momentum_signal.res_out => decision_sink.mom_in
+INFO: [CFGEN 83-0]   risk_matrix.res_out => decision_sink.rsk_in
+INFO: [CFGEN 83-0]   regime_classifier.res_out => decision_sink.rgm_in
+INFO: [CFGEN 83-0] SLR Specs: 
+INFO: [CFGEN 83-0]   instance: bcast_pm, SLR: SLR0
+INFO: [CFGEN 83-0]   instance: bcast_st, SLR: SLR0
+INFO: [CFGEN 83-0]   instance: decision_sink, SLR: SLR0
+INFO: [CFGEN 83-0]   instance: inctsvd_top, SLR: SLR0
+INFO: [CFGEN 83-0]   instance: lob_filter, SLR: SLR0
+INFO: [CFGEN 83-0]   instance: momentum_signal, SLR: SLR0
+INFO: [CFGEN 83-0]   instance: regime_classifier, SLR: SLR0
+INFO: [CFGEN 83-0]   instance: risk_matrix, SLR: SLR0
+INFO: [CFGEN 83-0]   instance: upd_inject, SLR: SLR0
+INFO: [CFGEN 83-2226] Inferring mapping for argument lob_filter.price_ref to HBM[0]
+INFO: [SYSTEM_LINK 82-37] [16:32:46] cfgen finished successfully
+Time (s): cpu = 00:00:02 ; elapsed = 00:00:02 . Memory (MB): peak = 2270.617 ; gain = 0.000 ; free physical = 8427 ; free virtual = 37446
+INFO: [SYSTEM_LINK 82-52] Create top-level block diagram
+INFO: [SYSTEM_LINK 82-38] [16:32:46] cf2bd started: /home/eeuser/xilinx/Vitis/2022.1/bin/cf2bd  --linux --trace_buffer 1024 --input_file /home/eeuser/quant_accel/source_rr/_x/link/sys_link/cfgraph/cfgen_cfgraph.xml --ip_db /home/eeuser/quant_accel/source_rr/_x/link/sys_link/_sysl/.cdb/xd_ip_db.xml --cf_name dr --working_dir /home/eeuser/quant_accel/source_rr/_x/link/sys_link/_sysl/.xsd --temp_dir /home/eeuser/quant_accel/source_rr/_x/link/sys_link --output_dir /home/eeuser/quant_accel/source_rr/_x/link/int --target_bd ulp.bd
+INFO: [CF2BD 82-31] Launching cf2xd: cf2xd -linux -trace-buffer 1024 -i /home/eeuser/quant_accel/source_rr/_x/link/sys_link/cfgraph/cfgen_cfgraph.xml -r /home/eeuser/quant_accel/source_rr/_x/link/sys_link/_sysl/.cdb/xd_ip_db.xml -o dr.xml
+INFO: [CF2BD 82-28] cf2xd finished successfully
+INFO: [CF2BD 82-31] Launching cf_xsd: cf_xsd -disable-address-gen -bd ulp.bd -dn dr -dp /home/eeuser/quant_accel/source_rr/_x/link/sys_link/_sysl/.xsd
+INFO: [CF2BD 82-28] cf_xsd finished successfully
+INFO: [SYSTEM_LINK 82-37] [16:32:49] cf2bd finished successfully
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2270.617 ; gain = 0.000 ; free physical = 8417 ; free virtual = 37443
+INFO: [v++ 60-1441] [16:32:49] Run run_link: Step system_link: Completed
+Time (s): cpu = 00:00:11 ; elapsed = 00:00:10 . Memory (MB): peak = 2209.055 ; gain = 0.000 ; free physical = 8466 ; free virtual = 37486
+INFO: [v++ 60-1443] [16:32:49] Run run_link: Step cf2sw: Started
+INFO: [v++ 60-1453] Command Line: cf2sw -sdsl /home/eeuser/quant_accel/source_rr/_x/link/int/sdsl.dat -rtd /home/eeuser/quant_accel/source_rr/_x/link/int/cf2sw.rtd -nofilter /home/eeuser/quant_accel/source_rr/_x/link/int/cf2sw_full.rtd -xclbin /home/eeuser/quant_accel/source_rr/_x/link/int/xclbin_orig.xml -o /home/eeuser/quant_accel/source_rr/_x/link/int/xclbin_orig.1.xml
+INFO: [v++ 60-1454] Run Directory: /home/eeuser/quant_accel/source_rr/_x/link/run_link
+INFO: [v++ 60-1441] [16:32:53] Run run_link: Step cf2sw: Completed
+Time (s): cpu = 00:00:04 ; elapsed = 00:00:04 . Memory (MB): peak = 2209.055 ; gain = 0.000 ; free physical = 8465 ; free virtual = 37486
+INFO: [v++ 60-1443] [16:32:53] Run run_link: Step rtd2_system_diagram: Started
+INFO: [v++ 60-1453] Command Line: rtd2SystemDiagram
+INFO: [v++ 60-1454] Run Directory: /home/eeuser/quant_accel/source_rr/_x/link/run_link
+INFO: [v++ 60-1441] [16:32:53] Run run_link: Step rtd2_system_diagram: Completed
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.15 . Memory (MB): peak = 2209.055 ; gain = 0.000 ; free physical = 8449 ; free virtual = 37470
+INFO: [v++ 60-1443] [16:32:53] Run run_link: Step vpl: Started
+INFO: [v++ 60-1453] Command Line: vpl -t hw -f /opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm --remote_ip_cache /home/eeuser/quant_accel/source_rr/.ipcache --output_dir /home/eeuser/quant_accel/source_rr/_x/link/int --log_dir /home/eeuser/quant_accel/source_rr/_x/logs/link --report_dir /home/eeuser/quant_accel/source_rr/_x/reports/link --config /home/eeuser/quant_accel/source_rr/_x/link/int/vplConfig.ini -k /home/eeuser/quant_accel/source_rr/_x/link/int/kernel_info.dat --webtalk_flag Vitis --temp_dir /home/eeuser/quant_accel/source_rr/_x/link --no-info --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_decision_sink_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_regime_classifier_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_sv_bcast2_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_inctsvd_top_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_lob_filter_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_upd_inject_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_momentum_signal_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_sv_bcast3_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_risk_matrix_1_0 --messageDb /home/eeuser/quant_accel/source_rr/_x/link/run_link/vpl.pb /home/eeuser/quant_accel/source_rr/_x/link/int/dr.bd.tcl
+INFO: [v++ 60-1454] Run Directory: /home/eeuser/quant_accel/source_rr/_x/link/run_link
+
+****** vpl v2022.1 (64-bit)
+  **** SW Build 3524075 on 2022-04-13-17:42:45
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+
+INFO: [VPL 60-839] Read in kernel information from file '/home/eeuser/quant_accel/source_rr/_x/link/int/kernel_info.dat'.
+INFO: [VPL 74-78] Compiler Version string: 2022.1
+INFO: [VPL 60-423]   Target device: xilinx_u50_gen3x16_xdma_5_202210_1
+INFO: [VPL 60-1032] Extracting hardware platform to /home/eeuser/quant_accel/source_rr/_x/link/vivado/vpl/.local/hw_platform
+[16:32:59] Run vpl: Step create_project: Started
+Creating Vivado project.
+[16:33:00] Run vpl: Step create_project: Completed
+[16:33:00] Run vpl: Step create_bd: Started
+[16:33:13] Run vpl: Step create_bd: Completed
+[16:33:13] Run vpl: Step update_bd: Started
+[16:33:14] Run vpl: Step update_bd: Completed
+[16:33:14] Run vpl: Step generate_target: Started
+[16:33:38] Run vpl: Step generate_target: Completed
+[16:33:38] Run vpl: Step config_hw_runs: Started
+[16:33:39] Run vpl: Step config_hw_runs: Completed
+[16:33:39] Run vpl: Step synth: Started
+[16:34:10] Block-level synthesis in progress, 0 of 9 jobs complete, 4 jobs running.
+[16:34:40] Block-level synthesis in progress, 1 of 9 jobs complete, 3 jobs running.
+[16:35:10] Block-level synthesis in progress, 1 of 9 jobs complete, 3 jobs running.
+[16:35:40] Block-level synthesis in progress, 2 of 9 jobs complete, 2 jobs running.
+[16:36:10] Block-level synthesis in progress, 2 of 9 jobs complete, 2 jobs running.
+[16:36:40] Block-level synthesis in progress, 2 of 9 jobs complete, 2 jobs running.
+[16:37:10] Block-level synthesis in progress, 2 of 9 jobs complete, 2 jobs running.
+[16:37:40] Block-level synthesis in progress, 2 of 9 jobs complete, 2 jobs running.
+[16:38:10] Block-level synthesis in progress, 2 of 9 jobs complete, 2 jobs running.
+[16:38:40] Block-level synthesis in progress, 2 of 9 jobs complete, 2 jobs running.
+[16:39:10] Block-level synthesis in progress, 2 of 9 jobs complete, 2 jobs running.
+[16:39:40] Block-level synthesis in progress, 3 of 9 jobs complete, 1 job running.
+[16:40:10] Block-level synthesis in progress, 3 of 9 jobs complete, 1 job running.
+[16:40:40] Block-level synthesis in progress, 3 of 9 jobs complete, 1 job running.
+[16:41:10] Block-level synthesis in progress, 4 of 9 jobs complete, 1 job running.
+[16:41:28] Run vpl: Step synth: Completed
+[16:41:28] Run vpl: Step impl: Started
+[16:45:59] Finished 2nd of 6 tasks (FPGA linking synthesized kernels to platform). Elapsed time: 00h 13m 06s 
+
+[16:45:59] Starting logic optimization..
+[16:46:29] Phase 1 Retarget
+[16:47:00] Phase 2 Constant propagation
+[16:47:00] Phase 3 Sweep
+[16:47:30] Phase 4 BUFG optimization
+[16:47:30] Phase 5 Shift Register Optimization
+[16:47:30] Phase 6 Post Processing Netlist
+[16:48:30] Finished 3rd of 6 tasks (FPGA logic optimization). Elapsed time: 00h 02m 30s 
+
+[16:48:30] Starting logic placement..
+[16:48:30] Phase 1 Placer Initialization
+[16:48:30] Phase 1.1 Placer Initialization Netlist Sorting
+[16:49:30] Phase 1.2 IO Placement/ Clock Placement/ Build Placer Device
+[16:50:00] Phase 1.3 Build Placer Netlist Model
+[16:51:00] Phase 1.4 Constrain Clocks/Macros
+[16:51:31] Phase 2 Global Placement
+[16:51:31] Phase 2.1 Floorplanning
+[16:51:31] Phase 2.1.1 Partition Driven Placement
+[16:51:31] Phase 2.1.1.1 PBP: Partition Driven Placement
+[16:52:01] Phase 2.1.1.2 PBP: Clock Region Placement
+[16:52:31] Phase 2.1.1.3 PBP: Discrete Incremental
+[16:52:31] Phase 2.1.1.4 PBP: Compute Congestion
+[16:52:31] Phase 2.1.1.5 PBP: Macro Placement
+[16:52:31] Phase 2.1.1.6 PBP: UpdateTiming
+[16:53:01] Phase 2.1.1.7 PBP: Add part constraints
+[16:53:01] Phase 2.2 Physical Synthesis After Floorplan
+[16:53:01] Phase 2.3 Update Timing before SLR Path Opt
+[16:53:01] Phase 2.4 Post-Processing in Floorplanning
+[16:53:01] Phase 2.5 Global Placement Core
+[16:55:32] Phase 2.5.1 Physical Synthesis In Placer
+[16:56:32] Phase 3 Detail Placement
+[16:56:32] Phase 3.1 Commit Multi Column Macros
+[16:56:32] Phase 3.2 Commit Most Macros & LUTRAMs
+[16:57:32] Phase 3.3 Small Shape DP
+[16:57:32] Phase 3.3.1 Small Shape Clustering
+[16:57:32] Phase 3.3.2 Flow Legalize Slice Clusters
+[16:57:32] Phase 3.3.3 Slice Area Swap
+[16:57:32] Phase 3.3.3.1 Slice Area Swap Initial
+[16:58:03] Phase 3.4 Place Remaining
+[16:58:03] Phase 3.5 Re-assign LUT pins
+[16:58:03] Phase 3.6 Pipeline Register Optimization
+[16:58:03] Phase 3.7 Fast Optimization
+[16:58:33] Phase 4 Post Placement Optimization and Clean-Up
+[16:58:33] Phase 4.1 Post Commit Optimization
+[16:59:33] Phase 4.1.1 Post Placement Optimization
+[16:59:33] Phase 4.1.1.1 BUFG Replication
+[17:00:03] Phase 4.1.1.2 Post Placement Timing Optimization
+[17:02:34] Phase 4.1.1.3 Replication
+[17:03:04] Phase 4.2 Post Placement Cleanup
+[17:03:34] Phase 4.3 Placer Reporting
+[17:03:34] Phase 4.3.1 Print Estimated Congestion
+[17:03:34] Phase 4.4 Final Placement Cleanup
+[17:05:04] Finished 4th of 6 tasks (FPGA logic placement). Elapsed time: 00h 16m 34s 
+
+[17:05:04] Starting logic routing..
+[17:05:35] Phase 1 Build RT Design
+[17:07:05] Phase 2 Router Initialization
+[17:07:05] Phase 2.1 Fix Topology Constraints
+[17:07:05] Phase 2.2 Pre Route Cleanup
+[17:07:35] Phase 2.3 Global Clock Net Routing
+[17:07:35] Phase 2.4 Update Timing
+[17:09:06] Phase 2.5 Update Timing for Bus Skew
+[17:09:06] Phase 2.5.1 Update Timing
+[17:10:06] Phase 3 Initial Routing
+[17:10:06] Phase 3.1 Global Routing
+[17:10:36] Phase 4 Rip-up And Reroute
+[17:10:36] Phase 4.1 Global Iteration 0
+[17:16:08] Phase 4.2 Global Iteration 1
+[17:18:38] Phase 5 Delay and Skew Optimization
+[17:18:38] Phase 5.1 TNS Cleanup
+[17:18:38] Phase 5.1.1 Delay CleanUp
+[17:18:38] Phase 5.1.1.1 Update Timing
+[17:19:08] Phase 5.2 Clock Skew Optimization
+[17:19:39] Phase 6 Post Hold Fix
+[17:19:39] Phase 6.1 Hold Fix Iter
+[17:19:39] Phase 6.1.1 Update Timing
+[17:20:09] Phase 7 Route finalize
+[17:20:39] Phase 8 Verifying routed nets
+[17:20:39] Phase 9 Depositing Routes
+[17:21:09] Phase 10 Resolve XTalk
+[17:21:09] Phase 11 Route finalize
+[17:21:09] Phase 12 Post Router Timing
+[17:22:09] Finished 5th of 6 tasks (FPGA routing). Elapsed time: 00h 17m 04s 
+
+[17:22:09] Starting bitstream generation..
+Starting optional post-route physical design optimization.
+Finished optional post-route physical design optimization.
+[17:27:41] Creating bitmap...
+[17:29:11] Writing bitstream ./level0_i_ulp_my_rm_partial.bit...
+[17:29:11] Finished 6th of 6 tasks (FPGA bitstream generation). Elapsed time: 00h 07m 02s 
+[17:29:36] Run vpl: Step impl: Completed
+[17:29:36] Run vpl: FINISHED. Run Status: impl Complete!
+INFO: [v++ 60-1441] [17:29:36] Run run_link: Step vpl: Completed
+Time (s): cpu = 00:00:17 ; elapsed = 00:56:44 . Memory (MB): peak = 2209.055 ; gain = 0.000 ; free physical = 13401 ; free virtual = 34963
+INFO: [v++ 60-1443] [17:29:36] Run run_link: Step rtdgen: Started
+INFO: [v++ 60-1453] Command Line: rtdgen
+INFO: [v++ 60-1454] Run Directory: /home/eeuser/quant_accel/source_rr/_x/link/run_link
+INFO: [v++ 60-991] clock name 'ulp_ucs/aclk_kernel_01' (clock ID '1') is being mapped to clock name 'KERNEL_CLK' in the xclbin
+INFO: [v++ 60-991] clock name 'ulp_ucs/aclk_kernel_00' (clock ID '0') is being mapped to clock name 'DATA_CLK' in the xclbin
+INFO: [v++ 60-991] clock name 'hbm_aclk' (clock ID '') is being mapped to clock name 'hbm_aclk' in the xclbin
+INFO: [v++ 60-1230] The compiler selected the following frequencies for the runtime controllable kernel clock(s) and scalable system clock(s): System (SYSTEM) clock: hbm_aclk = 450, Kernel (KERNEL) clock: ulp_ucs/aclk_kernel_01 = 500, Kernel (DATA) clock: ulp_ucs/aclk_kernel_00 = 300
+INFO: [v++ 60-1453] Command Line: cf2sw -a /home/eeuser/quant_accel/source_rr/_x/link/int/address_map.xml -sdsl /home/eeuser/quant_accel/source_rr/_x/link/int/sdsl.dat -xclbin /home/eeuser/quant_accel/source_rr/_x/link/int/xclbin_orig.xml -rtd /home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.rtd -o /home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.xml
+INFO: [v++ 60-1652] Cf2sw returned exit code: 0
+INFO: [v++ 60-1441] [17:29:40] Run run_link: Step rtdgen: Completed
+Time (s): cpu = 00:00:03 ; elapsed = 00:00:03 . Memory (MB): peak = 2209.055 ; gain = 0.000 ; free physical = 13311 ; free virtual = 35023
+INFO: [v++ 60-1443] [17:29:40] Run run_link: Step xclbinutil: Started
+INFO: [v++ 60-1453] Command Line: xclbinutil --add-section BITSTREAM:RAW:/home/eeuser/quant_accel/source_rr/_x/link/int/partial.bit --force --target hw --key-value SYS:dfx_enable:true --add-section :JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.rtd --append-section :JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/appendSection.rtd --add-section CLOCK_FREQ_TOPOLOGY:JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr_xml.rtd --add-section BUILD_METADATA:JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr_build.rtd --add-section EMBEDDED_METADATA:RAW:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.xml --add-section SYSTEM_METADATA:RAW:/home/eeuser/quant_accel/source_rr/_x/link/int/systemDiagramModelSlrBaseAddress.json --key-value SYS:PlatformVBNV:xilinx_u50_gen3x16_xdma_5_202210_1 --output /home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin
+INFO: [v++ 60-1454] Run Directory: /home/eeuser/quant_accel/source_rr/_x/link/run_link
+XRT Build Version: 2.13.466 (2022.1)
+       Build Date: 2022-04-14 17:43:11
+          Hash ID: f5505e402c2ca1ffe45eb6d3a9399b23a0dc8776
+Creating a default 'in-memory' xclbin image.
+
+Section: 'BITSTREAM'(0) was successfully added.
+Size   : 36846660 bytes
+Format : RAW
+File   : '/home/eeuser/quant_accel/source_rr/_x/link/int/partial.bit'
+
+Section: 'MEM_TOPOLOGY'(6) was successfully added.
+Format : JSON
+File   : 'mem_topology'
+
+Section: 'IP_LAYOUT'(8) was successfully added.
+Format : JSON
+File   : 'ip_layout'
+
+Section: 'CONNECTIVITY'(7) was successfully added.
+Format : JSON
+File   : 'connectivity'
+
+Section: 'CLOCK_FREQ_TOPOLOGY'(11) was successfully added.
+Size   : 410 bytes
+Format : JSON
+File   : '/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr_xml.rtd'
+
+Section: 'BUILD_METADATA'(14) was successfully added.
+Size   : 16627 bytes
+Format : JSON
+File   : '/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr_build.rtd'
+
+Section: 'EMBEDDED_METADATA'(2) was successfully added.
+Size   : 70419 bytes
+Format : RAW
+File   : '/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.xml'
+
+Section: 'SYSTEM_METADATA'(22) was successfully added.
+Size   : 80837 bytes
+Format : RAW
+File   : '/home/eeuser/quant_accel/source_rr/_x/link/int/systemDiagramModelSlrBaseAddress.json'
+
+Section: 'PARTITION_METADATA'(20) was successfully appended to.
+Format : JSON
+File   : 'partition_metadata'
+
+Section: 'IP_LAYOUT'(8) was successfully appended to.
+Format : JSON
+File   : 'ip_layout'
+Successfully wrote (37066654 bytes) to the output file: /home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin
+Leaving xclbinutil.
+INFO: [v++ 60-1441] [17:29:40] Run run_link: Step xclbinutil: Completed
+Time (s): cpu = 00:00:00.05 ; elapsed = 00:00:00.15 . Memory (MB): peak = 2209.055 ; gain = 0.000 ; free physical = 13266 ; free virtual = 35038
+INFO: [v++ 60-1443] [17:29:40] Run run_link: Step xclbinutilinfo: Started
+INFO: [v++ 60-1453] Command Line: xclbinutil --quiet --force --info /home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin.info --input /home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin
+INFO: [v++ 60-1454] Run Directory: /home/eeuser/quant_accel/source_rr/_x/link/run_link
+INFO: [v++ 60-1441] [17:29:40] Run run_link: Step xclbinutilinfo: Completed
+Time (s): cpu = 00:00:00.2 ; elapsed = 00:00:00.23 . Memory (MB): peak = 2209.055 ; gain = 0.000 ; free physical = 13264 ; free virtual = 35072
+INFO: [v++ 60-1443] [17:29:40] Run run_link: Step generate_sc_driver: Started
+INFO: [v++ 60-1453] Command Line: 
+INFO: [v++ 60-1454] Run Directory: /home/eeuser/quant_accel/source_rr/_x/link/run_link
+INFO: [v++ 60-1441] [17:29:40] Run run_link: Step generate_sc_driver: Completed
+Time (s): cpu = 00:00:00 ; elapsed = 00:00:00 . Memory (MB): peak = 2209.055 ; gain = 0.000 ; free physical = 13264 ; free virtual = 35072
+INFO: [v++ 60-2331] SLR0 was specfied for compute unit bcast_pm, and verified as such in implementation.
+INFO: [v++ 60-2331] SLR0 was specfied for compute unit bcast_st, and verified as such in implementation.
+INFO: [v++ 60-2331] SLR0 was specfied for compute unit decision_sink, and verified as such in implementation.
+INFO: [v++ 60-2331] SLR0 was specfied for compute unit inctsvd_top, and verified as such in implementation.
+INFO: [v++ 60-2331] SLR0 was specfied for compute unit lob_filter, and verified as such in implementation.
+INFO: [v++ 60-2331] SLR0 was specfied for compute unit momentum_signal, and verified as such in implementation.
+INFO: [v++ 60-2331] SLR0 was specfied for compute unit regime_classifier, and verified as such in implementation.
+INFO: [v++ 60-2331] SLR0 was specfied for compute unit risk_matrix, and verified as such in implementation.
+INFO: [v++ 60-2331] SLR0 was specfied for compute unit upd_inject, and verified as such in implementation.
+INFO: [v++ 60-244] Generating system estimate report...
+INFO: [v++ 60-1092] Generated system estimate report: /home/eeuser/quant_accel/source_rr/_x/reports/link/system_estimate_quant_accel_rr.xtxt
+INFO: [v++ 60-586] Created /home/eeuser/quant_accel/source_rr/quant_accel_rr.ltx
+INFO: [v++ 60-586] Created quant_accel_rr.xclbin
+INFO: [v++ 60-1307] Run completed. Additional information can be found in:
+	Guidance: /home/eeuser/quant_accel/source_rr/_x/reports/link/v++_link_quant_accel_rr_guidance.html
+	Timing Report: /home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_hw_bb_locked_timing_summary_routed.rpt
+	Vivado Log: /home/eeuser/quant_accel/source_rr/_x/logs/link/vivado.log
+	Steps Log File: /home/eeuser/quant_accel/source_rr/_x/logs/link/link.steps.log
+
+INFO: [v++ 60-2343] Use the vitis_analyzer tool to visualize and navigate the relevant reports. Run the following command. 
+    vitis_analyzer /home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin.link_summary 
+INFO: [v++ 60-791] Total elapsed time: 0h 57m 14s
+INFO: [v++ 60-1653] Closing dispatch client.

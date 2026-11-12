@@ -1,0 +1,42 @@
+
+----------------------------------------------------
+1/1 [0000:01:00.1] : xilinx_u50_gen3x16_xdma_base_5
+----------------------------------------------------
+Platform
+  XSA Name               : xilinx_u50_gen3x16_xdma_base_5 
+  Platform UUID          : 44654095-25B4-C06A-EC6D-0B479D3FEBE8 
+  FPGA Name              :  
+  JTAG ID Code           : 0x14b77093 
+  DDR Size               : 0 Bytes
+  DDR Count              : 0 
+  Mig Calibrated         : true 
+  P2P Status             : disabled 
+  P2P IO space required  : 16 GB
+
+Clocks
+  DATA_CLK (Data)        : 300 MHz
+  KERNEL_CLK (Kernel)    : 500 MHz
+  hbm_aclk (System)      : 450 MHz
+
+Mac Addresses            : 00:0A:35:06:79:F2
+                         : 00:0A:35:06:79:F3
+                         : 00:0A:35:06:79:F4
+                         : 00:0A:35:06:79:F5
+
+Xclbin UUID
+  904FAC04-8785-93EA-6322-91C893C15383
+
+Compute Units
+  PL Compute Units
+    Index   Name                                              Base_Address    Usage   Status  
+    0       lob_filter:lob_filter                             0x1420000       0       (IDLE)  
+    1       upd_inject:upd_inject                             0x1460000       0       (IDLE)  
+    2       inctsvd_top:inctsvd_top                           0x1410000       0       (IDLE)  
+    3       momentum_signal:momentum_signal                   0x1430000       0       (IDLE)  
+    4       risk_matrix:risk_matrix                           0x1450000       0       (IDLE)  
+    5       regime_classifier:regime_classifier               0x1440000       0       (IDLE)  
+    6       decision_sink:decision_sink                       0x1400000       0       (IDLE)  
+
+  PS Compute Units
+    Index   Name                                              Base_Address    Usage   Status  
+

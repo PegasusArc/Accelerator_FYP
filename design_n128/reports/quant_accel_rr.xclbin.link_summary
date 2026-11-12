@@ -1,0 +1,1514 @@
+<ENTRY>
+{
+ "thisFile": "/home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin.link_summary",
+ "connectId": "",
+ "serverToken": "",
+ "timestamp": "0"
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Thu Sep 24 16:32:36 2026",
+ "timestampMillis": "1790238756615",
+ "buildStep": {
+  "cmdId": "ee5c30c0-bd57-4d9b-888b-817846dc3523",
+  "name": "v++",
+  "logFile": "/home/eeuser/quant_accel/source_rr/_x/link/link.steps.log",
+  "commandLine": "/home/eeuser/xilinx/Vitis/2022.1/bin/unwrapped/lnx64.o/v++  --vivado.prop \"run.__KERNEL__.{STEPS.SYNTH_DESIGN.ARGS.MORE OPTIONS}={-directive sdx_optimization_effort_high}\" --advanced.misc \"report=type report_timing_summary name impl_report_timing_summary_route_design_summary steps {route_design} runs {impl_1} options {-max_paths 10}\" --advanced.misc \"report=type report_timing_summary name impl_report_timing_summary_post_route_phys_opt_design_summary steps {post_route_phys_opt_design} runs {impl_1} options {-max_paths 10}\" -l -t hw --platform /opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm --config /home/eeuser/quant_accel/vitis/quant_accel_rr.cfg -o quant_accel_rr.xclbin upd_inject.xo lob_filter.xo inctsvd_top.xo sv_bcast3.xo sv_bcast2.xo momentum_signal.xo risk_matrix.xo regime_classifier.xo decision_sink.xo ",
+  "args": [
+   "-l",
+   "-t",
+   "hw",
+   "--platform",
+   "/opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm",
+   "--config",
+   "/home/eeuser/quant_accel/vitis/quant_accel_rr.cfg",
+   "-o",
+   "quant_accel_rr.xclbin",
+   "upd_inject.xo",
+   "lob_filter.xo",
+   "inctsvd_top.xo",
+   "sv_bcast3.xo",
+   "sv_bcast2.xo",
+   "momentum_signal.xo",
+   "risk_matrix.xo",
+   "regime_classifier.xo",
+   "decision_sink.xo"
+  ],
+  "iniFiles": [
+   {
+    "path": "/home/eeuser/quant_accel/vitis/quant_accel_rr.cfg",
+    "content": "# ─────────────────────────────────────────────────────────────────────────────\n# quant_accel.cfg — v++ link configuration (Option B)\n#\n# Adds decision_sink, moves the two DMA endpoints (upd_inject, decision_sink)\n# onto HBM, and wires the three app result streams into the sink. stream_connect\n# is strictly point-to-point, which is why sv_bcast3/sv_bcast2 exist.\n# ─────────────────────────────────────────────────────────────────────────────\nplatform=/opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm\n\n[connectivity]\nnk=upd_inject:1:upd_inject\nnk=lob_filter:1:lob_filter\nnk=inctsvd_top:1:inctsvd_top\nnk=sv_bcast3:1:bcast_st\nnk=sv_bcast2:1:bcast_pm\nnk=momentum_signal:1:momentum_signal\nnk=risk_matrix:1:risk_matrix\nnk=regime_classifier:1:regime_classifier\nnk=decision_sink:1:decision_sink\n\n# ── DMA endpoints -\u003e HBM ─────────────────────────────────────────────────────\n# NEW in B: Option A used no HBM at all. The feeder reads the packed update\n# batch from HBM; the sink writes the decision batch back. Both buffers are tiny\n# (a few hundred × 32/40 B), so any pseudo-channel is fine; kept on separate\n# banks so the in/out bursts never contend.\nsp=upd_inject.updates:HBM[0]\nsp=decision_sink.decisions:HBM[1]\n\n\n# ── FIFO depths ──────────────────────────────────────────────────────────────\n# The :N suffix on each stream_connect sets the FIFO depth in beats (default is\n# shallow, ~16-32). Two reasons it is set explicitly here:\n#  1. The three app kernels have very different IIs (regime 1, risk 4, momentum\n#     5), so one can run hundreds of ticks ahead of another. A shallow FIFO\n#     fills, that kernel blocks, the blockage backs up through the broadcaster\n#     into inctsvd_top, and the whole pipeline stalls.\n#  2. Depth 512 comfortably exceeds a 299-tick batch, so no stage can be held\n#     up by a downstream one within a single replay.\n# The real deadlock fix is the read-ordering correction in risk_matrix (St\n# before proj, matching momentum and inctsvd_top's write order); these depths\n# are margin on top of it, not a substitute.\n\n# ── ingress ──────────────────────────────────────────────────────────────────\nstream_connect=upd_inject.upd_out:lob_filter.upd_in:2048\n# LOB tick matrix into the SVD (decided ticks only)\nstream_connect=lob_filter.Bt_out:inctsvd_top.Bt_in:256\n# singular values -\u003e all three apps\nstream_connect=inctsvd_top.St_out:bcast_st.in:2048\nstream_connect=bcast_st.out0:momentum_signal.St_in:2048\nstream_connect=bcast_st.out1:risk_matrix.St_in:2048\nstream_connect=bcast_st.out2:regime_classifier.St_in:2048\n# projection magnitudes -\u003e momentum + risk\nstream_connect=inctsvd_top.proj_out:bcast_pm.in:2048\nstream_connect=bcast_pm.out0:momentum_signal.proj_in:2048\nstream_connect=bcast_pm.out1:risk_matrix.proj_in:2048\n# NEW in B: the three app signals -\u003e the on-chip vote\nstream_connect=momentum_signal.res_out:decision_sink.mom_in:2048\nstream_connect=risk_matrix.res_out:decision_sink.rsk_in:2048\nstream_connect=regime_classifier.res_out:decision_sink.rgm_in:2048\n# ── SLR placement ────────────────────────────────────────────────────────────\n# FLIPPED from Option A. A used no HBM and put everything in SLR1 (next to the\n# host/PCIe interface). B's feeder and sink now DMA to/from HBM, and on the U50\n# all 32 HBM segments live in SLR0. Placing the whole chain in SLR0 keeps both\n# the kernel-to-kernel AXI-Stream *and* the new HBM DMA path local; only the\n# low-bandwidth AXI-Lite control crosses to the host interface, which is cheap.\n# The design is ~150k LUT / ~1.2k DSP — a comfortable fit in SLR0\n# (351,840 LUT / 2,352 DSP). If the link fails timing or routing, first try\n# removing these slr= lines to let the placer decide, then try SLR1.\nslr=upd_inject:SLR0\nslr=lob_filter:SLR0\nslr=inctsvd_top:SLR0\nslr=bcast_st:SLR0\nslr=bcast_pm:SLR0\nslr=momentum_signal:SLR0\nslr=risk_matrix:SLR0\nslr=regime_classifier:SLR0\nslr=decision_sink:SLR0\n\n[clock]\nfreqHz=166666666:upd_inject.ap_clk\nfreqHz=166666666:lob_filter.ap_clk\nfreqHz=166666666:inctsvd_top.ap_clk\nfreqHz=166666666:bcast_st.ap_clk\nfreqHz=166666666:bcast_pm.ap_clk\nfreqHz=166666666:momentum_signal.ap_clk\nfreqHz=166666666:risk_matrix.ap_clk\nfreqHz=166666666:regime_classifier.ap_clk\nfreqHz=166666666:decision_sink.ap_clk\n# 166.666 MHz on the shared default clock. If the hw link fails timing, drop to\n# 125000000 and relink — even at the slowest kernel's II that is ~1.2 M\n# decisions/s, far beyond any feed rate.\n# freqHz=166666666:inctsvd_top.ap_clk\n\n[vivado]\nprop=run.impl_1.strategy=Performance_ExplorePostRoutePhysOpt\n"
+   }
+  ],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:36 2026",
+ "timestampMillis": "1790238756616",
+ "status": {
+  "cmdId": "ee5c30c0-bd57-4d9b-888b-817846dc3523",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_FlowMetaData",
+ "dateTimestamp": "Thu Sep 24 16:32:39 2026",
+ "timestampMillis": "1790238759445",
+ "buildSummary": {
+  "hardwarePlatform": "xilinx_u50_gen3x16_xdma_5_202210_1.xpfm",
+  "hardwareDsa": "",
+  "platformDirectory": "/opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1",
+  "runtime": "OpenCL",
+  "systemConfig": "Linux",
+  "flow": "BF_LINK",
+  "target": "TT_HW",
+  "binaryContainer": {
+   "base": {
+    "type": "BT_UKNOWN",
+    "name": "quant_accel_rr",
+    "file": "/home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin",
+    "reports": [],
+    "uuid": ""
+   },
+   "kernels": []
+  },
+  "kernels": [
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "upd_inject",
+     "file": "/home/eeuser/quant_accel/source_rr/upd_inject.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/upd_inject/upd_inject/cpu_sources/upd_inject.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "upd_inject"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   },
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "lob_filter",
+     "file": "/home/eeuser/quant_accel/source_rr/lob_filter.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/lob_filter/lob_filter/cpu_sources/lob_filter.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "lob_filter"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   },
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "inctsvd_top",
+     "file": "/home/eeuser/quant_accel/source_rr/inctsvd_top.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/inctsvd_top/inctsvd_top/cpu_sources/inctsvd_top.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "inctsvd_top"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   },
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "sv_bcast3",
+     "file": "/home/eeuser/quant_accel/source_rr/sv_bcast3.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/sv_bcast3/sv_bcast3/cpu_sources/sv_bcast.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "bcast_st"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   },
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "sv_bcast2",
+     "file": "/home/eeuser/quant_accel/source_rr/sv_bcast2.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/sv_bcast2/sv_bcast2/cpu_sources/sv_bcast.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "bcast_pm"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   },
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "momentum_signal",
+     "file": "/home/eeuser/quant_accel/source_rr/momentum_signal.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/momentum_signal/momentum_signal/cpu_sources/quant_apps.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "momentum_signal"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   },
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "risk_matrix",
+     "file": "/home/eeuser/quant_accel/source_rr/risk_matrix.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/risk_matrix/risk_matrix/cpu_sources/quant_apps.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "risk_matrix"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   },
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "regime_classifier",
+     "file": "/home/eeuser/quant_accel/source_rr/regime_classifier.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/regime_classifier/regime_classifier/cpu_sources/quant_apps.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "regime_classifier"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   },
+   {
+    "base": {
+     "type": "KERNEL",
+     "name": "decision_sink",
+     "file": "/home/eeuser/quant_accel/source_rr/decision_sink.xo",
+     "reports": [],
+     "uuid": ""
+    },
+    "sources": [
+     "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/decision_sink/decision_sink/cpu_sources/decision_sink.cpp"
+    ],
+    "psSources": [],
+    "cuNames": [
+     "decision_sink"
+    ],
+    "type": "HLS",
+    "frequency": 0,
+    "freqUnits": ""
+   }
+  ],
+  "toolVersion": "Vitis V++ Compiler Release 2022.1. SW Build 3524075 on 2022-04-13-17:42:45"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 16:32:39 2026",
+ "timestampMillis": "1790238759532",
+ "buildStep": {
+  "cmdId": "d170f8f3-ac9f-450f-838e-cb294c9b58eb",
+  "name": "system_link",
+  "logFile": "",
+  "commandLine": "system_link --xo /home/eeuser/quant_accel/source_rr/upd_inject.xo --xo /home/eeuser/quant_accel/source_rr/lob_filter.xo --xo /home/eeuser/quant_accel/source_rr/inctsvd_top.xo --xo /home/eeuser/quant_accel/source_rr/sv_bcast3.xo --xo /home/eeuser/quant_accel/source_rr/sv_bcast2.xo --xo /home/eeuser/quant_accel/source_rr/momentum_signal.xo --xo /home/eeuser/quant_accel/source_rr/risk_matrix.xo --xo /home/eeuser/quant_accel/source_rr/regime_classifier.xo --xo /home/eeuser/quant_accel/source_rr/decision_sink.xo --config /home/eeuser/quant_accel/source_rr/_x/link/int/syslinkConfig.ini --xpfm /opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm --target hw --output_dir /home/eeuser/quant_accel/source_rr/_x/link/int --temp_dir /home/eeuser/quant_accel/source_rr/_x/link/sys_link",
+  "args": [
+   "--xo",
+   "/home/eeuser/quant_accel/source_rr/upd_inject.xo",
+   "--xo",
+   "/home/eeuser/quant_accel/source_rr/lob_filter.xo",
+   "--xo",
+   "/home/eeuser/quant_accel/source_rr/inctsvd_top.xo",
+   "--xo",
+   "/home/eeuser/quant_accel/source_rr/sv_bcast3.xo",
+   "--xo",
+   "/home/eeuser/quant_accel/source_rr/sv_bcast2.xo",
+   "--xo",
+   "/home/eeuser/quant_accel/source_rr/momentum_signal.xo",
+   "--xo",
+   "/home/eeuser/quant_accel/source_rr/risk_matrix.xo",
+   "--xo",
+   "/home/eeuser/quant_accel/source_rr/regime_classifier.xo",
+   "--xo",
+   "/home/eeuser/quant_accel/source_rr/decision_sink.xo",
+   "--config",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/syslinkConfig.ini",
+   "--xpfm",
+   "/opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm",
+   "--target",
+   "hw",
+   "--output_dir",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int",
+   "--temp_dir",
+   "/home/eeuser/quant_accel/source_rr/_x/link/sys_link"
+  ],
+  "iniFiles": [
+   {
+    "path": "/home/eeuser/quant_accel/source_rr/_x/link/int/syslinkConfig.ini",
+    "content": "nk=upd_inject:1:upd_inject\nnk=lob_filter:1:lob_filter\nnk=inctsvd_top:1:inctsvd_top\nnk=sv_bcast3:1:bcast_st\nnk=sv_bcast2:1:bcast_pm\nnk=momentum_signal:1:momentum_signal\nnk=risk_matrix:1:risk_matrix\nnk=regime_classifier:1:regime_classifier\nnk=decision_sink:1:decision_sink\nsc=upd_inject.upd_out:lob_filter.upd_in:2048\nsc=lob_filter.Bt_out:inctsvd_top.Bt_in:256\nsc=inctsvd_top.St_out:bcast_st.in:2048\nsc=bcast_st.out0:momentum_signal.St_in:2048\nsc=bcast_st.out1:risk_matrix.St_in:2048\nsc=bcast_st.out2:regime_classifier.St_in:2048\nsc=inctsvd_top.proj_out:bcast_pm.in:2048\nsc=bcast_pm.out0:momentum_signal.proj_in:2048\nsc=bcast_pm.out1:risk_matrix.proj_in:2048\nsc=momentum_signal.res_out:decision_sink.mom_in:2048\nsc=risk_matrix.res_out:decision_sink.rsk_in:2048\nsc=regime_classifier.res_out:decision_sink.rgm_in:2048\nsp=upd_inject.updates:HBM[0]\nsp=decision_sink.decisions:HBM[1]\nslr=upd_inject:SLR0\nslr=lob_filter:SLR0\nslr=inctsvd_top:SLR0\nslr=bcast_st:SLR0\nslr=bcast_pm:SLR0\nslr=momentum_signal:SLR0\nslr=risk_matrix:SLR0\nslr=regime_classifier:SLR0\nslr=decision_sink:SLR0\n\nclock.freqHz=166666666:upd_inject.ap_clk\nclock.freqHz=166666666:lob_filter.ap_clk\nclock.freqHz=166666666:inctsvd_top.ap_clk\nclock.freqHz=166666666:bcast_st.ap_clk\nclock.freqHz=166666666:bcast_pm.ap_clk\nclock.freqHz=166666666:momentum_signal.ap_clk\nclock.freqHz=166666666:risk_matrix.ap_clk\nclock.freqHz=166666666:regime_classifier.ap_clk\nclock.freqHz=166666666:decision_sink.ap_clk\n\n"
+   }
+  ],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:39 2026",
+ "timestampMillis": "1790238759533",
+ "status": {
+  "cmdId": "d170f8f3-ac9f-450f-838e-cb294c9b58eb",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:49 2026",
+ "timestampMillis": "1790238769471",
+ "status": {
+  "cmdId": "d170f8f3-ac9f-450f-838e-cb294c9b58eb",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 16:32:49 2026",
+ "timestampMillis": "1790238769471",
+ "buildStep": {
+  "cmdId": "c6f45781-2380-4dbc-b97d-d7eb5050f7d0",
+  "name": "cf2sw",
+  "logFile": "",
+  "commandLine": "cf2sw -sdsl /home/eeuser/quant_accel/source_rr/_x/link/int/sdsl.dat -rtd /home/eeuser/quant_accel/source_rr/_x/link/int/cf2sw.rtd -nofilter /home/eeuser/quant_accel/source_rr/_x/link/int/cf2sw_full.rtd -xclbin /home/eeuser/quant_accel/source_rr/_x/link/int/xclbin_orig.xml -o /home/eeuser/quant_accel/source_rr/_x/link/int/xclbin_orig.1.xml",
+  "args": [
+   "-sdsl",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/sdsl.dat",
+   "-rtd",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/cf2sw.rtd",
+   "-nofilter",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/cf2sw_full.rtd",
+   "-xclbin",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xclbin_orig.xml",
+   "-o",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xclbin_orig.1.xml"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:49 2026",
+ "timestampMillis": "1790238769471",
+ "status": {
+  "cmdId": "c6f45781-2380-4dbc-b97d-d7eb5050f7d0",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:53 2026",
+ "timestampMillis": "1790238773087",
+ "status": {
+  "cmdId": "c6f45781-2380-4dbc-b97d-d7eb5050f7d0",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 16:32:53 2026",
+ "timestampMillis": "1790238773088",
+ "buildStep": {
+  "cmdId": "ecf1033b-cb1d-4bb6-964e-c7f87a5413d4",
+  "name": "rtd2_system_diagram",
+  "logFile": "",
+  "commandLine": "rtd2SystemDiagram",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:53 2026",
+ "timestampMillis": "1790238773088",
+ "status": {
+  "cmdId": "ecf1033b-cb1d-4bb6-964e-c7f87a5413d4",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 16:32:53 2026",
+ "timestampMillis": "1790238773243",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/link/int/systemDiagramModel.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "SYSTEM_DIAGRAM",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:53 2026",
+ "timestampMillis": "1790238773243",
+ "status": {
+  "cmdId": "ecf1033b-cb1d-4bb6-964e-c7f87a5413d4",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 16:32:53 2026",
+ "timestampMillis": "1790238773244",
+ "buildStep": {
+  "cmdId": "432856b2-a563-41a8-aa86-82a343732e1a",
+  "name": "vpl",
+  "logFile": "",
+  "commandLine": "vpl -t hw -f /opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm --remote_ip_cache /home/eeuser/quant_accel/source_rr/.ipcache --output_dir /home/eeuser/quant_accel/source_rr/_x/link/int --log_dir /home/eeuser/quant_accel/source_rr/_x/logs/link --report_dir /home/eeuser/quant_accel/source_rr/_x/reports/link --config /home/eeuser/quant_accel/source_rr/_x/link/int/vplConfig.ini -k /home/eeuser/quant_accel/source_rr/_x/link/int/kernel_info.dat --webtalk_flag Vitis --temp_dir /home/eeuser/quant_accel/source_rr/_x/link --no-info --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_decision_sink_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_regime_classifier_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_sv_bcast2_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_inctsvd_top_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_lob_filter_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_upd_inject_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_momentum_signal_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_sv_bcast3_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_risk_matrix_1_0 --messageDb /home/eeuser/quant_accel/source_rr/_x/link/run_link/vpl.pb /home/eeuser/quant_accel/source_rr/_x/link/int/dr.bd.tcl",
+  "args": [
+   "-t",
+   "hw",
+   "-f",
+   "/opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm",
+   "--remote_ip_cache",
+   "/home/eeuser/quant_accel/source_rr/.ipcache",
+   "--output_dir",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int",
+   "--log_dir",
+   "/home/eeuser/quant_accel/source_rr/_x/logs/link",
+   "--report_dir",
+   "/home/eeuser/quant_accel/source_rr/_x/reports/link",
+   "--config",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/vplConfig.ini",
+   "-k",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/kernel_info.dat",
+   "--webtalk_flag",
+   "Vitis",
+   "--temp_dir",
+   "/home/eeuser/quant_accel/source_rr/_x/link",
+   "--no-info",
+   "--iprepo",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_decision_sink_1_0",
+   "--iprepo",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_regime_classifier_1_0",
+   "--iprepo",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_sv_bcast2_1_0",
+   "--iprepo",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_inctsvd_top_1_0",
+   "--iprepo",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_lob_filter_1_0",
+   "--iprepo",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_upd_inject_1_0",
+   "--iprepo",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_momentum_signal_1_0",
+   "--iprepo",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_sv_bcast3_1_0",
+   "--iprepo",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_risk_matrix_1_0",
+   "--messageDb",
+   "/home/eeuser/quant_accel/source_rr/_x/link/run_link/vpl.pb",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/dr.bd.tcl"
+  ],
+  "iniFiles": [
+   {
+    "path": "/home/eeuser/quant_accel/source_rr/_x/link/int/vplConfig.ini",
+    "content": "[advanced]\nmisc=report=type report_timing_summary name impl_report_timing_summary_route_design_summary steps {route_design} runs {impl_1} options {-max_paths 10}\nmisc=report=type report_timing_summary name impl_report_timing_summary_post_route_phys_opt_design_summary steps {post_route_phys_opt_design} runs {impl_1} options {-max_paths 10}\nparam=compiler.enablePerformanceTrace=1\nparam=compiler.vppCurrentWorkingDir=/home/eeuser/quant_accel/source_rr\nmisc=BinaryName=quant_accel_rr\n\n[connectivity]\nnk=upd_inject:1:upd_inject\nnk=lob_filter:1:lob_filter\nnk=inctsvd_top:1:inctsvd_top\nnk=sv_bcast3:1:bcast_st\nnk=sv_bcast2:1:bcast_pm\nnk=momentum_signal:1:momentum_signal\nnk=risk_matrix:1:risk_matrix\nnk=regime_classifier:1:regime_classifier\nnk=decision_sink:1:decision_sink\n\n[vivado]\nprop=run.__KERNEL__.{STEPS.SYNTH_DESIGN.ARGS.MORE OPTIONS}={-directive sdx_optimization_effort_high}\nprop=run.impl_1.strategy=Performance_ExplorePostRoutePhysOpt\n\n"
+   }
+  ],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:53 2026",
+ "timestampMillis": "1790238773244",
+ "status": {
+  "cmdId": "432856b2-a563-41a8-aa86-82a343732e1a",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Thu Sep 24 16:32:53 2026",
+ "timestampMillis": "1790238773874",
+ "buildStep": {
+  "cmdId": "5a9dc7ec-7191-4b98-8635-794a0925e680",
+  "name": "vpl",
+  "logFile": "/home/eeuser/quant_accel/source_rr/_x/link/link.steps.log",
+  "commandLine": "/home/eeuser/xilinx/Vitis/2022.1/bin/unwrapped/lnx64.o/vpl -t hw -f /opt/xilinx/platforms/xilinx_u50_gen3x16_xdma_5_202210_1/xilinx_u50_gen3x16_xdma_5_202210_1.xpfm --remote_ip_cache /home/eeuser/quant_accel/source_rr/.ipcache --output_dir /home/eeuser/quant_accel/source_rr/_x/link/int --log_dir /home/eeuser/quant_accel/source_rr/_x/logs/link --report_dir /home/eeuser/quant_accel/source_rr/_x/reports/link --config /home/eeuser/quant_accel/source_rr/_x/link/int/vplConfig.ini -k /home/eeuser/quant_accel/source_rr/_x/link/int/kernel_info.dat --webtalk_flag Vitis --temp_dir /home/eeuser/quant_accel/source_rr/_x/link --no-info --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_decision_sink_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_regime_classifier_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_sv_bcast2_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_inctsvd_top_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_lob_filter_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_upd_inject_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_momentum_signal_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_sv_bcast3_1_0 --iprepo /home/eeuser/quant_accel/source_rr/_x/link/int/xo/ip_repo/xilinx_com_hls_risk_matrix_1_0 --messageDb /home/eeuser/quant_accel/source_rr/_x/link/run_link/vpl.pb /home/eeuser/quant_accel/source_rr/_x/link/int/dr.bd.tcl ",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr/_x/link/run_link"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:53 2026",
+ "timestampMillis": "1790238773874",
+ "status": {
+  "cmdId": "5a9dc7ec-7191-4b98-8635-794a0925e680",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_VivadoProject",
+ "dateTimestamp": "Thu Sep 24 16:32:56 2026",
+ "timestampMillis": "1790238776140",
+ "vivadoProject": {
+  "openDir": "/home/eeuser/quant_accel/source_rr/_x/link/vivado/vpl",
+  "openScript": "openprj.tcl",
+  "relativeProject": "prj/prj.xpr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 16:32:56 2026",
+ "timestampMillis": "1790238776140",
+ "buildStep": {
+  "cmdId": "35c327fc-d879-4c80-a1c8-a002199e85a8",
+  "name": "vivado",
+  "logFile": "/home/eeuser/quant_accel/source_rr/_x/link/vivado/vpl/vivado.log",
+  "commandLine": "vivado -log vivado.log -applog -m64 -messageDb vivado.pb -mode batch -source vpl.tcl -notrace",
+  "args": [
+   "-log",
+   "vivado.log",
+   "-applog",
+   " -m64",
+   "-messageDb",
+   "vivado.pb",
+   "-mode",
+   "batch",
+   "-source",
+   "vpl.tcl",
+   "-notrace"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr/_x/link/run_link"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:32:56 2026",
+ "timestampMillis": "1790238776141",
+ "status": {
+  "cmdId": "35c327fc-d879-4c80-a1c8-a002199e85a8",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 16:33:14 2026",
+ "timestampMillis": "1790238794120",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/link/int/automation_summary_update_bd.txt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "VITIS_DESIGN_FLOW",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Thu Sep 24 16:41:28 2026",
+ "timestampMillis": "1790239288453",
+ "buildStep": {
+  "cmdId": "990549b8-0f59-46d2-96ff-cb0ba8a56fb0",
+  "name": "vivado.impl",
+  "logFile": "",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr/_x/link/vivado/vpl"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:41:28 2026",
+ "timestampMillis": "1790239288464",
+ "status": {
+  "cmdId": "990549b8-0f59-46d2-96ff-cb0ba8a56fb0",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_CmdStep",
+ "dateTimestamp": "Thu Sep 24 16:41:28 2026",
+ "timestampMillis": "1790239288465",
+ "buildStep": {
+  "cmdId": "453c6b05-ebc0-4fe9-8299-2f1b25ac0eb1",
+  "name": "vivado.impl.impl_1",
+  "logFile": "/home/eeuser/quant_accel/source_rr/_x/link/vivado/vpl/prj/prj.runs/impl_1/runme.log",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr/_x/link/vivado/vpl/prj/prj.runs/impl_1"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 16:41:28 2026",
+ "timestampMillis": "1790239288466",
+ "status": {
+  "cmdId": "453c6b05-ebc0-4fe9-8299-2f1b25ac0eb1",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:22:36 2026",
+ "timestampMillis": "1790241756551",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/link/vivado/vpl/prj/prj.runs/impl_1/system_diagram.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "SYSTEM_DIAGRAM_PLUS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:23:40 2026",
+ "timestampMillis": "1790241820261",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/link/int/kernel_service.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "KERNEL_SERVICE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:23:40 2026",
+ "timestampMillis": "1790241820262",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/link/int/kernel_service.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "KERNEL_SERVICE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:25:59 2026",
+ "timestampMillis": "1790241959359",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/link/vivado/vpl/prj/prj.runs/impl_1/dr_timing_summary.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY_FAIL",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176647",
+ "status": {
+  "cmdId": "35c327fc-d879-4c80-a1c8-a002199e85a8",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176666",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_kernel_util_synthed.xutil",
+  "name": "",
+  "fileType": "XUTIL",
+  "reportType": "KERNEL_UTILIZATION_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176667",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_slr_util_placed.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_SLR_UTIL_PLACED",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176667",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_slr_util_placed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_SLR_UTIL_PLACED",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176667",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_kernel_util_routed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "KERNEL_UTILIZATION_ROUTE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176668",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_full_util_routed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_UTILIZATION_ROUTE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176668",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_kernel_util_placed.xutil",
+  "name": "",
+  "fileType": "XUTIL",
+  "reportType": "KERNEL_UTILIZATION_PLACEMENT",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176668",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_kernel_util_placed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "KERNEL_UTILIZATION_PLACEMENT",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176668",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_full_util_synthed.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_UTILIZATION_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176668",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_slr_util_routed.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_SLR_UTIL_ROUTED",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176669",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_full_util_routed.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_UTILIZATION_ROUTE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176669",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_kernel_util_synthed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "KERNEL_UTILIZATION_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176669",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_slr_util_routed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_SLR_UTIL_ROUTED",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176669",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_full_util_synthed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_UTILIZATION_SYNTHESIS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176670",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_kernel_util_routed.xutil",
+  "name": "",
+  "fileType": "XUTIL",
+  "reportType": "KERNEL_UTILIZATION_ROUTE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176682",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/syn/ulp_lob_filter_0_synth_1_ulp_lob_filter_0_utilization_synth.rpt",
+  "name": "lob_filter",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_UTILIZATION",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176683",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/syn/ulp_inctsvd_top_0_synth_1_ulp_inctsvd_top_0_utilization_synth.rpt",
+  "name": "inctsvd_top",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_UTILIZATION",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176683",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/syn/ulp_momentum_signal_0_synth_1_ulp_momentum_signal_0_utilization_synth.rpt",
+  "name": "momentum_signal",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_UTILIZATION",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176683",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/syn/ulp_risk_matrix_0_synth_1_ulp_risk_matrix_0_utilization_synth.rpt",
+  "name": "risk_matrix",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_UTILIZATION",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176684",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_system_diagram.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "SYSTEM_DIAGRAM_PLUS",
+  "cmdId": "453c6b05-ebc0-4fe9-8299-2f1b25ac0eb1"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176705",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_hw_bb_locked_timing_summary_routed.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY",
+  "cmdId": "453c6b05-ebc0-4fe9-8299-2f1b25ac0eb1"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176717",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_hw_bb_locked_timing_summary_routed.rpx",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY",
+  "cmdId": "453c6b05-ebc0-4fe9-8299-2f1b25ac0eb1"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176717",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_hw_bb_locked_timing_summary_routed.rpv",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY_CONCISE",
+  "cmdId": "453c6b05-ebc0-4fe9-8299-2f1b25ac0eb1"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176723",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_hw_bb_locked_timing_summary_postroute_physopted.rpt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY",
+  "cmdId": "453c6b05-ebc0-4fe9-8299-2f1b25ac0eb1"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176729",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_hw_bb_locked_timing_summary_postroute_physopted.rpx",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY",
+  "cmdId": "453c6b05-ebc0-4fe9-8299-2f1b25ac0eb1"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176729",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/imp/impl_1_hw_bb_locked_timing_summary_postroute_physopted.rpv",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_REPORT_TIMING_SUMMARY_CONCISE",
+  "cmdId": "453c6b05-ebc0-4fe9-8299-2f1b25ac0eb1"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176777",
+ "status": {
+  "cmdId": "5a9dc7ec-7191-4b98-8635-794a0925e680",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176936",
+ "status": {
+  "cmdId": "432856b2-a563-41a8-aa86-82a343732e1a",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176960",
+ "buildStep": {
+  "cmdId": "86377063-071c-42fa-82d2-d09effdd190f",
+  "name": "rtdgen",
+  "logFile": "",
+  "commandLine": "rtdgen",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176960",
+ "status": {
+  "cmdId": "86377063-071c-42fa-82d2-d09effdd190f",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:36 2026",
+ "timestampMillis": "1790242176996",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr_xml.rtd",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "XCLBIN_INFO",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 17:29:37 2026",
+ "timestampMillis": "1790242177007",
+ "buildStep": {
+  "cmdId": "08c04ea5-2c7d-45fa-9762-eac39e2afe84",
+  "name": "cf2sw",
+  "logFile": "",
+  "commandLine": "cf2sw -a /home/eeuser/quant_accel/source_rr/_x/link/int/address_map.xml -sdsl /home/eeuser/quant_accel/source_rr/_x/link/int/sdsl.dat -xclbin /home/eeuser/quant_accel/source_rr/_x/link/int/xclbin_orig.xml -rtd /home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.rtd -o /home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.xml",
+  "args": [
+   "-a",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/address_map.xml",
+   "-sdsl",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/sdsl.dat",
+   "-xclbin",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/xclbin_orig.xml",
+   "-rtd",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.rtd",
+   "-o",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.xml"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:37 2026",
+ "timestampMillis": "1790242177008",
+ "status": {
+  "cmdId": "08c04ea5-2c7d-45fa-9762-eac39e2afe84",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180405",
+ "status": {
+  "cmdId": "08c04ea5-2c7d-45fa-9762-eac39e2afe84",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180406",
+ "buildStep": {
+  "cmdId": "55a46922-bc45-4fcd-bb64-281092f892c8",
+  "name": "rtdgen",
+  "logFile": "",
+  "commandLine": "writeSystemDiagram",
+  "args": [
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.rtd",
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/systemDiagramModelSlrBaseAddress.json"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180406",
+ "status": {
+  "cmdId": "55a46922-bc45-4fcd-bb64-281092f892c8",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180412",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/link/int/systemDiagramModelSlrBaseAddress.json",
+  "name": "",
+  "fileType": "JSON",
+  "reportType": "SYSTEM_DIAGRAM_PLUS",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180412",
+ "status": {
+  "cmdId": "55a46922-bc45-4fcd-bb64-281092f892c8",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180413",
+ "buildStep": {
+  "cmdId": "2cf033dc-bf10-4cc5-ace2-7dafa6776d20",
+  "name": "rtdgen",
+  "logFile": "",
+  "commandLine": "writeAutomationSummary",
+  "args": [
+   "/home/eeuser/quant_accel/source_rr/_x/link/int/automation_summary.txt"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180413",
+ "status": {
+  "cmdId": "2cf033dc-bf10-4cc5-ace2-7dafa6776d20",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180414",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/link/int/automation_summary.txt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "VITIS_DESIGN_FLOW",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180415",
+ "status": {
+  "cmdId": "2cf033dc-bf10-4cc5-ace2-7dafa6776d20",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180415",
+ "status": {
+  "cmdId": "86377063-071c-42fa-82d2-d09effdd190f",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180417",
+ "buildStep": {
+  "cmdId": "bf54b9cb-eeb5-4880-99b3-2813803fc7d4",
+  "name": "xclbinutil",
+  "logFile": "",
+  "commandLine": "xclbinutil --add-section BITSTREAM:RAW:/home/eeuser/quant_accel/source_rr/_x/link/int/partial.bit --force --target hw --key-value SYS:dfx_enable:true --add-section :JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.rtd --append-section :JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/appendSection.rtd --add-section CLOCK_FREQ_TOPOLOGY:JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr_xml.rtd --add-section BUILD_METADATA:JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr_build.rtd --add-section EMBEDDED_METADATA:RAW:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.xml --add-section SYSTEM_METADATA:RAW:/home/eeuser/quant_accel/source_rr/_x/link/int/systemDiagramModelSlrBaseAddress.json --key-value SYS:PlatformVBNV:xilinx_u50_gen3x16_xdma_5_202210_1 --output /home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin",
+  "args": [
+   "--add-section",
+   "BITSTREAM:RAW:/home/eeuser/quant_accel/source_rr/_x/link/int/partial.bit",
+   "--force",
+   "--target",
+   "hw",
+   "--key-value",
+   "SYS:dfx_enable:true",
+   "--add-section",
+   ":JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.rtd",
+   "--append-section",
+   ":JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/appendSection.rtd",
+   "--add-section",
+   "CLOCK_FREQ_TOPOLOGY:JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr_xml.rtd",
+   "--add-section",
+   "BUILD_METADATA:JSON:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr_build.rtd",
+   "--add-section",
+   "EMBEDDED_METADATA:RAW:/home/eeuser/quant_accel/source_rr/_x/link/int/quant_accel_rr.xml",
+   "--add-section",
+   "SYSTEM_METADATA:RAW:/home/eeuser/quant_accel/source_rr/_x/link/int/systemDiagramModelSlrBaseAddress.json",
+   "--key-value",
+   "SYS:PlatformVBNV:xilinx_u50_gen3x16_xdma_5_202210_1",
+   "--output",
+   "/home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180417",
+ "status": {
+  "cmdId": "bf54b9cb-eeb5-4880-99b3-2813803fc7d4",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180567",
+ "status": {
+  "cmdId": "bf54b9cb-eeb5-4880-99b3-2813803fc7d4",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180570",
+ "buildStep": {
+  "cmdId": "0ce12d7b-be2c-45f7-a1ba-c44343127a5a",
+  "name": "xclbinutilinfo",
+  "logFile": "",
+  "commandLine": "xclbinutil --quiet --force --info /home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin.info --input /home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin",
+  "args": [
+   "--quiet",
+   "--force",
+   "--info",
+   "/home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin.info",
+   "--input",
+   "/home/eeuser/quant_accel/source_rr/quant_accel_rr.xclbin"
+  ],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180571",
+ "status": {
+  "cmdId": "0ce12d7b-be2c-45f7-a1ba-c44343127a5a",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180797",
+ "status": {
+  "cmdId": "0ce12d7b-be2c-45f7-a1ba-c44343127a5a",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_SubCmdStep",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180797",
+ "buildStep": {
+  "cmdId": "87ea51af-0d99-48fa-b7af-a851665435f9",
+  "name": "generate_sc_driver",
+  "logFile": "",
+  "commandLine": "",
+  "args": [],
+  "iniFiles": [],
+  "cwd": "/home/eeuser/quant_accel/source_rr"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180797",
+ "status": {
+  "cmdId": "87ea51af-0d99-48fa-b7af-a851665435f9",
+  "state": "CS_RUNNING"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180798",
+ "status": {
+  "cmdId": "87ea51af-0d99-48fa-b7af-a851665435f9",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:40 2026",
+ "timestampMillis": "1790242180863",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/system_estimate_quant_accel_rr.xtxt",
+  "name": "",
+  "fileType": "TEXT",
+  "reportType": "GLOBAL_SYSTEM_ESTIMATE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:41 2026",
+ "timestampMillis": "1790242181162",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/reports/link/v++_link_quant_accel_rr_guidance.html",
+  "name": "",
+  "fileType": "HTML",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:41 2026",
+ "timestampMillis": "1790242181163",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/v++_link_quant_accel_rr_guidance.pb",
+  "name": "",
+  "fileType": "BINARY_PROTOBUF",
+  "reportType": "GLOBAL_RULECHECK_GUIDANCE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Report",
+ "dateTimestamp": "Thu Sep 24 17:29:41 2026",
+ "timestampMillis": "1790242181166",
+ "report": {
+  "path": "/home/eeuser/quant_accel/source_rr/_x/logs/optraceViewer.html",
+  "name": "",
+  "fileType": "HTML",
+  "reportType": "OPERATION_TRACE",
+  "cmdId": ""
+ }
+}
+</ENTRY>
+<ENTRY>
+{
+ "type": "ET_Status",
+ "dateTimestamp": "Thu Sep 24 17:29:41 2026",
+ "timestampMillis": "1790242181166",
+ "status": {
+  "cmdId": "ee5c30c0-bd57-4d9b-888b-817846dc3523",
+  "state": "CS_PASSED"
+ }
+}
+</ENTRY>
