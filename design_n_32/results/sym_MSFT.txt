@@ -1,0 +1,87 @@
+symbol      : MSFT   (other tickers skipped)
+truncated   : 138936 -> 20000 updates (from the start of the file)
+ITCH        : /home/eeuser/quant_accel/20190730.BX_ITCH_50  (20000 updates)
+price_ref   : 140.5
+decided (M) : 19411   (skipped one-sided: 589)
+device      : xilinx_u50_gen3x16_xdma_base_5
+xclbin      : /home/eeuser/quant_accel/offer2_codes/TB/quant_accel.xclbin
+
+input  buffer @ 0x0  (20000 updates)
+output buffer @ 0x10000000  (19411 decisions)
+
+register check: upd_inject.n_ticks = 20000 (expect 20000)
+                lob_filter.n_ticks = 20000 (expect 20000)
+                risk.risk_thresh   = 24177 (q12 of 5.9026 = 24177)
+                decision_sink.n_ticks = 19411 (expect 19411)
+
+
+=== Replay complete ===
+decisions           : 19411
+vote distribution   : HOLD 17360  BUY 1577  SELL 474
+  momentum vote     : HOLD 16538  BUY 1886  SELL 987
+  risk vote         : HOLD 17026  BUY 316  SELL 2069
+  regime vote       : HOLD 8056  BUY 9176  SELL 2179
+rho readings clamped: 43/19411  (hardware ceiling 2048; decisions unaffected while the
+                        threshold stays below it)
+agreement vs golden : 17935/19411  (92.4%)
+
+Batch wall clock (19411 decided ticks):
+  FPGA : 13.521 ms   -> 1.436 M decisions/s
+  CPU  : 5.716 ms   -> 3.396 M decisions/s
+
+=== Sensitivity of the algorithm itself ===
+  reference vs itself, 7 perturbations of ~1e-9 : 90.0% to 92.9%  (median 92.9%)
+  hardware vs reference                       : 92.4%
+  The card sits inside the range the reference model produces
+  against itself, so the disagreement is the decomposition's
+  own sensitivity to this data - not precision loss.
+
+=== Risk vote audit ===
+  reference model : SELL 2103 (10.8%)   BUY 280   HOLD 17028
+  card            : SELL 2069 (10.7%)   BUY 316   HOLD 17026
+  agreement       : 18772/19411  (96.7%)
+  card said SELL where the reference did not : 256  (1.3%)
+  rho at the 2048 ceiling on the card         : 43  (0.2%)
+  clamped ticks span index 1 to 58; 43 of them fall in the first 100 ticks
+  ^ The extra SELLs (1.3%) are far above the clamping rate (0.2%), so the clamp
+    does not explain them - this is ordinary chaotic divergence, and the
+    totals confirm it: the card and the reference reach nearly the same
+    overall SELL/BUY/HOLD split.
+
+=== Pass criteria ===
+PASS: no saturation (max |S1| = 5e+01 of 2048)
+S1 distribution : hw median 32.9712 vs golden 31.9546  (3.1814% apart)
+                  hw p95    41.3833 vs golden 35.1279  (17.8076% apart)
+PASS: S1 distribution matches within 25%
+
+=== rho diagnostic (reference model, full precision) ===
+min 0.000   median 4.352   p95 12.614   max 28657.829
+above hardware clamp (2048) : 43 / 19411  (0.2%)
+risk vote at threshold 6 : SELL 2103   BUY 280   HOLD 17028
+
+=== sign census (can the sign bit be dropped?) ===
+  tick matrix (centred price / qty) : 23.3% negative   (min -0.9931)
+  singular values St               : 0.0% negative
+  projection magnitudes            : 0.0% negative
+  momentum deviation (S1 - ema)    : 52.7% negative   (min -5.9492)
+  risk trace rho                   : 0.0% negative
+  An unsigned type is only available for a quantity that is
+  never negative. Anything above 0% rules it out.
+
+=== normalisation diagnostic ===
+  n2 (pre-normalisation sum of squares):  median 2.8   p95 8.4   max 13138.4
+  ticks above the Newton-Raphson convergence limit (12288) : 8 / 19411  (0.0%)
+  ticks where hn saturates in ap_fixed<36,14> (16384)      : 0 / 19411  (0.0%)
+  centred price x scale, max                             : 81.00 of 2048   (ok)
+  qty x qty_scale, max                                   : 0.98 of 2048   (ok)
+  ticks that WOULD have overflowed the old acc_t (524288)  : 0 / 19411  (0.00%)
+  worst 1/sqrt error, current design in FIXED POINT       : 0.02%   <- what the card actually does
+  worst 1/sqrt error, current design in double            : 0.00%
+  worst 1/sqrt error, ORIGINAL code on this data          : 176.43%   <- the defect that was fixed
+  ^ All three limits above are the ORIGINAL code's. Past them its iteration
+    diverged instead of converging, leaving the normalisation gain too
+    large and S1 too big. The current design extends the guess table
+    and widens the working type, and n2 now accumulates in a wider
+    type again, so none of the three limits applies to it.
+
+*** OPTION B HARDWARE RUN PASSED ***

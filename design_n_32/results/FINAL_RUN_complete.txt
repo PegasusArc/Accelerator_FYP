@@ -1,0 +1,29 @@
+
+── TEST 1  Regime classifier against known market conditions ─────────────────────────────────────────
+  trending    regime vote       : HOLD 13431  BUY 6019  SELL 540
+  meanrev     regime vote       : HOLD 17657  BUY 281  SELL 2052
+  volatile    regime vote       : HOLD 11806  BUY 5557  SELL 2619
+
+  Read the three lines above together: the shape should differ by mode.
+  Identical distributions would mean the classifier is not responding
+  to market conditions at all.
+
+── TEST 2  Multiple real symbols ─────────────────────────────────────────
+  SYMBOL    DECISIONS  AGREEMENT   MAX|S1|  VERDICT
+  SPY           19707      62.1%      45.9     PASS
+  IWM           19747      79.6%      61.6     PASS
+  AAPL          19085      80.9%      39.4     PASS
+  MSFT          19411      92.4%      46.4     PASS
+  QQQ           19999      99.5%      40.6     PASS
+  XLB           19989      99.1%      48.6     PASS
+  SOXL          19781      72.1%      41.7     PASS
+  UVXY          19073      96.4%      39.2     PASS
+
+── TEST 3  Repeatability ─────────────────────────────────────────
+  PASS: three runs produced byte-identical decisions.
+  timing across runs: 13.297 13.297 13.296 ms
+
+── SUMMARY ─────────────────────────────────────────
+  passed: 9    failed: 0
+  full logs in /home/eeuser/quant_accel/validation_results
+  ALL GOOD
