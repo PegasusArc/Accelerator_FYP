@@ -21,8 +21,8 @@ Accelerator_FYP/
 ├── design_n_32/          # 32-asset accelerator design
 ├── design_n128/          # 128-asset accelerator design
 ├── LICENSE
-├── Thesis/              #Contains Block design and other figures from the FYP
-
+├── Thesis/               #Contains Block design figures and other figures from the FYP
+├── README.md
 
 ```
 
