@@ -21,7 +21,9 @@ Accelerator_FYP/
 ├── design_n_32/          # 32-asset accelerator design
 ├── design_n128/          # 128-asset accelerator design
 ├── LICENSE
-└── README.md
+├── Thesis/              #Contains Block design and other figures from the FYP
+
+
 ```
 
 Each design directory contains:
